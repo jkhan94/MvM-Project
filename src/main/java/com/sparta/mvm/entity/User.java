@@ -42,6 +42,7 @@ public class User extends Timestamped {
 
     public void User(UserRequestDto userRequestDto){
 
+        this.loginId = userRequestDto.getLoginid();
         this.password = userRequestDto.getPassword();
         this.username = userRequestDto.getUsername();
         this.email = userRequestDto.getEmail();
