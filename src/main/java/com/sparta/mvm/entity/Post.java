@@ -3,7 +3,7 @@ package com.sparta.mvm.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.User;
+
 
 @Entity
 @Getter
