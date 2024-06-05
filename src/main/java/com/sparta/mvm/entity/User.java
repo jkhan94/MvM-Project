@@ -15,31 +15,31 @@ public class User extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long USER_ID;
+    private Long id;
 
-    @Column(name = "USERNAME", nullable = false)
-    private String USERNAME;
+    @Column(name = "username", nullable = false)
+    private String username;
 
-    @Column(name = "PASSWORD", nullable = false)
-    private String PASSWORD;
+    @Column(name = "password", nullable = false)
+    private String password;
 
-    @Column(name = "NAME", nullable = false)
-    private String NAME;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "EMAIL", nullable = false)
-    private String EMAIL;
+    @Column(name = "email", nullable = false)
+    private String email;
 
-    @Column(name = "LINE_INTRO", nullable = false)
-    private String LINE_INTRO;
+    @Column(name = "lineIntro", nullable = false)
+    private String lineIntro;
 
-    @Column(name = "USER_STATUS", nullable = false)
-    private String USER_STATUS;
+    @Column(name = "userStatus", nullable = false)
+    private String userStatus;
 
-    @Column(name = "REFRESH_TOKEN", nullable = false)
-    private String REFRESH_TOKEN;
+    @Column(name = "refreshToken", nullable = false)
+    private String refreshToken;
 
-    @Column(name = "USER_STATUS_TIME", nullable = false)
-    private LocalDate USER_STATUS_TIME;
+    @Column(name = "userStatusTime", nullable = false)
+    private LocalDate userStatusTime;
 
 //    public void User(UserRequestDto userRequestDto){
 //
