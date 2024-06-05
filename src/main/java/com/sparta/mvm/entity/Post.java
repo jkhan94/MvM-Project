@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "post")
+@Table(name = "posts")
 @NoArgsConstructor
 public class Post extends Timestamped{
     @Id
@@ -23,5 +23,8 @@ public class Post extends Timestamped{
     public Post(String contents, User user) {
         this.contents = contents;
         this.user = user;
+    }
+    public Post(String contents) {
+        this.contents = contents;
     }
 }
