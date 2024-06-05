@@ -5,11 +5,13 @@ import com.sparta.mvm.entity.Post;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Builder
+@NoArgsConstructor
 public class PostResponse {
     private Long postId;
     @NotBlank(message = "내용을 입력해 주세요")

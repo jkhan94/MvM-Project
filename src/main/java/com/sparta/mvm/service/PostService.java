@@ -38,7 +38,7 @@ public class PostService {
 
     @Transactional
     public List<PostResponse> getAll() {
-        List<Post> list = postRepository.findAll();
+        List<Post> list = postRepository.findAllByOrderByCreatedAtDesc();
         return list
                 .stream()
                 .sorted(Comparator.comparing(Post::getCreatedAt).reversed())
@@ -47,8 +47,8 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponse update(PostUpdateRequest request) {
-        Post post = findPostById(request.getId());
+    public PostResponse update(Long postId, PostUpdateRequest request) {
+        Post post = findPostById(postId);
         post.update(request.getContents());
         return PostResponse.toDto(post, "게시글 수정 성공 🎉", 200);
     }
