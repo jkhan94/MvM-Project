@@ -22,7 +22,7 @@ public class PostService {
 
     public PostResponse findById(long postId) {
         Post post = findPostById(postId);
-        return PostResponse.toDto(post, "게시글 조회 성공 🎉", 200);
+        return PostResponse.toList(post, "게시글 조회 성공 🎉", 200);
     }
 
     private Post findPostById(long postId) {
@@ -42,7 +42,7 @@ public class PostService {
         return list
                 .stream()
                 .sorted(Comparator.comparing(Post::getCreatedAt).reversed())
-                .map(post -> PostResponse.toDto(post, "게시글 조회 성공 🎉", 200))
+                .map(post -> PostResponse.toList(post, "게시글 조회 성공 🎉", 200))
                 .toList();
     }
 
@@ -58,6 +58,6 @@ public class PostService {
     public PostResponse delete(Long postId, PostDeleteRequest request) {
         Post post = findPostById(postId);
         postRepository.delete(post);
-        return PostResponse.toDto(post, "게시글 삭제 성공 🎉", 200);
+        return PostResponse.toDeleteResponse(post, "게시글 삭제 성공 🎉", 200);
     }
 }

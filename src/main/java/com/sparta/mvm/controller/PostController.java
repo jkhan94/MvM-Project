@@ -23,19 +23,18 @@ public class PostController {
 
     // 게시글 등록
     @PostMapping("/post")
-    public ResponseEntity<PostResponse> create(
-            @Valid @RequestBody PostCreateRequest request){
+    public ResponseEntity<PostResponse> create(@Valid @RequestBody PostCreateRequest request){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(request));
     }
 
     // 게시글 전체 조회
     @GetMapping("/post")
-    public ResponseEntity<List<PostResponse>> getAll(){
+    public ResponseEntity<List<PostResponse>> getAll() {
         List<PostResponse> newsFeed = service.getAll();
         if (newsFeed.isEmpty()) {
             // 뉴스피드가 비어있는 경우
-            String message = "먼저 작성하여 소식을 알려보세요!";
-            return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonList(PostResponse.builder()
+            String message = "먼저 작성하여 소식을 알려보세요 📝";
+            return ResponseEntity.ok().body(Collections.singletonList(PostResponse.builder()
                     .statusCode(HttpStatus.OK.value())
                     .msg(message)
                     .build()));
@@ -44,7 +43,6 @@ public class PostController {
             return ResponseEntity.ok().body(newsFeed);
         }
     }
-
 
     // 게시글 부분 조회
     @GetMapping("/post/{postId}")

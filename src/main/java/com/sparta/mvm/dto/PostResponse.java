@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +24,7 @@ public class PostResponse {
     private int statusCode;
     private String msg;
 
+
     public PostResponse(Long postId,  String contents, LocalDateTime createdAt, LocalDateTime modifiedAt, int statusCode, String msg) {
         this.postId = postId;
         this.contents = contents;
@@ -39,23 +41,36 @@ public class PostResponse {
         this.modifiedAt = post.getModifiedAt();
     }
 
-    public static PostResponse toDto(Post post) {
+    // 게시글 조회
+    public static PostResponse toList(Post post, String msg, int statusCode) {
         return PostResponse.builder()
+                .msg(msg)
+                .statusCode(statusCode)
                 .postId(post.getId())
+           //   .username(post.getUser().getUsername())
                 .contents(post.getContents())
                 .createdAt(post.getCreatedAt())
                 .modifiedAt(post.getModifiedAt())
                 .build();
     }
 
+    //게시글 등록, 수정
     public static PostResponse toDto(Post post, String msg, int statusCode) {
         return PostResponse.builder()
-                .postId(post.getId())
+                .msg(msg)
+                .statusCode(statusCode)
+           //   .username(post.getUser().getUsername())
                 .contents(post.getContents())
                 .createdAt(post.getCreatedAt())
                 .modifiedAt(post.getModifiedAt())
-                .statusCode(statusCode)
+                .build();
+    }
+
+    // 게시글 삭제
+    public static PostResponse toDeleteResponse(Post post, String msg, int statusCode) {
+        return PostResponse.builder()
                 .msg(msg)
+                .statusCode(statusCode)
                 .build();
     }
 }
