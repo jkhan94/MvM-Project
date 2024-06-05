@@ -17,36 +17,38 @@ public class User extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name = "loginId", nullable = false)
+    @Column(name = "loginId", nullable = false, length = 255)
     private String loginId;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, length = 255)
     private String username;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, length = 255)
     private String email;
 
-    @Column(name = "lineIntro", nullable = false)
+    @Column(name = "lineIntro", nullable = false, length = 255)
     private String lineIntro;
 
-    @Column(name = "userStatus", nullable = false)
+    @Column(name = "userStatus", nullable = false, length = 255)
     private String userStatus;
 
-    @Column(name = "refreshToken", nullable = false)
+    @Column(name = "refreshToken", nullable = false, length = 255)
     private String refreshToken;
 
     @Column(name = "userStatusTime", nullable = false)
     private LocalDate userStatusTime;
 
- /*   public void User(UserRequestDto userRequestDto){
+/*    public void User(UserRequestDto userRequestDto){
+
         this.loginId = userRequestDto.getLoginid();
         this.password = userRequestDto.getPassword();
         this.username = userRequestDto.getUsername();
         this.email = userRequestDto.getEmail();
         this.lineIntro = userRequestDto.getLineintro();
+
     }*/
 
     @OneToMany(mappedBy = "User")
