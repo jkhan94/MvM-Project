@@ -15,7 +15,7 @@ public class User extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
 
     @Column(name = "USERNAME", nullable = false, length = 20)
     private String username;
@@ -54,5 +54,5 @@ public class User extends Timestamped {
 
     @OneToMany(mappedBy = "user")
     private List<Post> post;
-*/
+
 }
