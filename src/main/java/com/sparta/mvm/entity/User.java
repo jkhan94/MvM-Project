@@ -17,28 +17,28 @@ public class User extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name = "loginId", nullable = false, length = 255)
-    private String loginId;
-
-    @Column(name = "password", nullable = false, length = 255)
-    private String password;
-
-    @Column(name = "username", nullable = false, length = 255)
+    @Column(name = "USERNAME", nullable = false, length = 20)
     private String username;
 
-    @Column(name = "email", nullable = false, length = 255)
+    @Column(name = "PASSWORD", nullable = false, length = 30)
+    private String password;
+
+    @Column(name = "NAME", nullable = false, length = 30)
+    private String name;
+
+    @Column(name = "EMAIL", nullable = false, length = 31)
     private String email;
 
-    @Column(name = "lineIntro", nullable = false, length = 255)
+    @Column(name = "LINE_INTRO", length = 255)
     private String lineIntro;
 
-    @Column(name = "userStatus", nullable = false, length = 255)
+    @Column(name = "USER_STATUS", nullable = false, length = 2)
     private String userStatus;
 
-    @Column(name = "refreshToken", nullable = false, length = 255)
+    @Column(name = "REFRESH_TOKEN", nullable = false, length = 255)
     private String refreshToken;
 
-    @Column(name = "userStatusTime", nullable = false)
+    @Column(name = "USER_STATUS_TIME", nullable = false)
     private LocalDate userStatusTime;
 
 /*    public void User(UserRequestDto userRequestDto){
@@ -51,7 +51,7 @@ public class User extends Timestamped {
 
     }*/
 
-    @OneToMany(mappedBy = "User")
+    @OneToMany(mappedBy = "user")
     private List<Post> post;
 
 }
