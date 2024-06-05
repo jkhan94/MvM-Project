@@ -1,7 +1,6 @@
 package com.sparta.mvm.controller;
 
 import com.sparta.mvm.dto.ProfileResponseDto;
-import com.sparta.mvm.entity.User;
 import com.sparta.mvm.exception.CommonResponse;
 import com.sparta.mvm.service.ProfileService;
 import org.springframework.http.HttpStatus;
