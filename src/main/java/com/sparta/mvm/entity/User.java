@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -14,41 +15,41 @@ public class User extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long USER_ID;
 
-    @Column(name = "loginId", nullable = false)
-    private String loginId;
+    @Column(name = "USERNAME", nullable = false)
+    private String USERNAME;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    @Column(name = "PASSWORD", nullable = false)
+    private String PASSWORD;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "NAME", nullable = false)
+    private String NAME;
 
-    @Column(name = "email", nullable = false)
-    private String email;
+    @Column(name = "EMAIL", nullable = false)
+    private String EMAIL;
 
-    @Column(name = "lineIntro", nullable = false)
-    private String lineIntro;
+    @Column(name = "LINE_INTRO", nullable = false)
+    private String LINE_INTRO;
 
-    @Column(name = "userStatus", nullable = false)
-    private String userStatus;
+    @Column(name = "USER_STATUS", nullable = false)
+    private String USER_STATUS;
 
-    @Column(name = "refreshToken", nullable = false)
-    private String refreshToken;
+    @Column(name = "REFRESH_TOKEN", nullable = false)
+    private String REFRESH_TOKEN;
 
-    @Column(name = "userStatusTime", nullable = false)
-    private LocalDate userStatusTime;
+    @Column(name = "USER_STATUS_TIME", nullable = false)
+    private LocalDate USER_STATUS_TIME;
 
-    public void User(UserRequestDto userRequestDto){
-
-        this.loginId = userRequestDto.getLoginid();
-        this.password = userRequestDto.getPassword();
-        this.username = userRequestDto.getUsername();
-        this.email = userRequestDto.getEmail();
-        this.lineIntro = userRequestDto.getLineintro();
-
-    }
+//    public void User(UserRequestDto userRequestDto){
+//
+//        this.loginId = userRequestDto.getLoginid();
+//        this.password = userRequestDto.getPassword();
+//        this.username = userRequestDto.getUsername();
+//        this.email = userRequestDto.getEmail();
+//        this.lineIntro = userRequestDto.getLineintro();
+//
+//    }
 
     @OneToMany(mappedBy = "User")
     private List<Post> post;
