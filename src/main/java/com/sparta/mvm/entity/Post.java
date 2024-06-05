@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Getter
 @Table(name = "post")
@@ -14,11 +13,11 @@ public class Post extends Timestamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "CONTENTS",nullable = false)
+    @Column(name = "contents",nullable = false)
     private String contents;
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID",nullable = false)
+    @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
     public Post(String contents, User user) {
