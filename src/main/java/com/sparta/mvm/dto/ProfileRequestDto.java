@@ -13,17 +13,13 @@ public class ProfileRequestDto {
 
     private String lineIntro;
 
-    @NotBlank
-    private String currentPassword; // 이전 비밀번호
+    @NotNull
+    private String currentPassword; // 현재 비밀번호
 
     @NotNull
     private String changedPassword; // 바꾼 비밀번호
 
     public void setChangedPassword(String changedPassword) {
         this.changedPassword = changedPassword;
-    }
-
-    public void setLineIntro(String lineIntro) {
-        this.lineIntro = lineIntro;
     }
 }
