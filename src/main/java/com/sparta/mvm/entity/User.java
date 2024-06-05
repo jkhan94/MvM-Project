@@ -15,43 +15,43 @@ public class User extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "USERNAME", nullable = false, length = 20)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "PASSWORD", nullable = false, length = 30)
     private String password;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "NAME", nullable = false, length = 30)
     private String name;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "EMAIL", nullable = false, length = 31)
     private String email;
 
-    @Column(name = "lineIntro", nullable = false)
+    @Column(name = "LINE_INTRO", length = 255)
     private String lineIntro;
 
-    @Column(name = "userStatus", nullable = false)
+    @Column(name = "USER_STATUS", nullable = false, length = 2)
     private String userStatus;
 
-    @Column(name = "refreshToken", nullable = false)
+    @Column(name = "REFRESH_TOKEN", nullable = false, length = 255)
     private String refreshToken;
 
-    @Column(name = "userStatusTime", nullable = false)
+    @Column(name = "USER_STATUS_TIME", nullable = false)
     private LocalDate userStatusTime;
 
-//    public void User(UserRequestDto userRequestDto){
-//
-//        this.loginId = userRequestDto.getLoginid();
-//        this.password = userRequestDto.getPassword();
-//        this.username = userRequestDto.getUsername();
-//        this.email = userRequestDto.getEmail();
-//        this.lineIntro = userRequestDto.getLineintro();
-//
-//    }
+/*    public void User(UserRequestDto userRequestDto){
 
-    @OneToMany(mappedBy = "User")
+        this.loginId = userRequestDto.getLoginid();
+        this.password = userRequestDto.getPassword();
+        this.username = userRequestDto.getUsername();
+        this.email = userRequestDto.getEmail();
+        this.lineIntro = userRequestDto.getLineintro();
+
+    }*/
+
+    @OneToMany(mappedBy = "user")
     private List<Post> post;
 
 }
