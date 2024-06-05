@@ -31,7 +31,7 @@ public class ProfileController {
         ProfileResponseDto profile = profileService.getProfile(userId);
         return ResponseEntity.ok().body(CommonResponse.builder()
                 .statusCode(HttpStatus.OK.value())
-                .msg("프로필 조회 성공!")
+                .msg("프로필 조회 성공\uD83C\uDF89")
                 .data(profile)
                 .build());
     }
@@ -54,7 +54,7 @@ public class ProfileController {
         ProfileResponseDto profile = profileService.updateSchedule(userId, requestDto);
         return ResponseEntity.ok().body(CommonResponse.builder()
                 .statusCode(HttpStatus.OK.value())
-                .msg("스케줄이 수정되었습니다.")
+                .msg("프로필 수정 성공\uD83C\uDF89")
                 .data(profile)
                 .build());
     }
