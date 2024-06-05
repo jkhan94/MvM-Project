@@ -19,7 +19,7 @@ public class ProfileService {
     private final PasswordEncoder passwordEncoder;
 
     public ProfileResponseDto getProfile(Long userId) {
-        User user = profileRepository.findById(userId).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+        User user = getUserById(userId);
         ProfileResponseDto responseDto = new ProfileResponseDto(user);
 
         return responseDto;
@@ -27,7 +27,7 @@ public class ProfileService {
 
     @Transactional
     public ProfileResponseDto updateProfile(Long userId, ProfileRequestDto requestDto) {
-        User user = profileRepository.findById(userId).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+        User user = getUserById(userId);
 
         // 비밀번호를 바꿀 때
         if (!requestDto.getChangedPassword().isEmpty()) {
@@ -50,8 +50,12 @@ public class ProfileService {
         }
 
         user.update(requestDto);
-        user = profileRepository.findById(userId).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+        user = getUserById(userId);
         return new ProfileResponseDto(user);
+    }
+
+    private User getUserById(Long userId) {
+        return profileRepository.findById(userId).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
     }
 
 }

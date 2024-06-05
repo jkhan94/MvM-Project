@@ -28,7 +28,9 @@ public class ProfileController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<CommonResponse> getProfile(@PathVariable Long userId) {
+
         ProfileResponseDto profile = profileService.getProfile(userId);
+
         return ResponseEntity.ok().body(CommonResponse.builder()
                 .statusCode(HttpStatus.OK.value())
                 .msg("프로필 조회 성공\uD83C\uDF89")
@@ -38,12 +40,13 @@ public class ProfileController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<CommonResponse> updateProfile(@PathVariable Long userId, @Valid @RequestBody ProfileRequestDto requestDto,
-                                                        BindingResult bindingResult){
+                                                        BindingResult bindingResult) {
+        // userId가 전달되지 않은 경우
         if (userId == null) {
             throw new CustomException(USER_NOT_FOUND);
         }
 
-        // 오류가 발생했다면 어느 필드에서 에러가 발생했는지 출력
+        // validation 처리
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         if (!fieldErrors.isEmpty()) {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
@@ -51,7 +54,9 @@ public class ProfileController {
             }
             throw new CustomException(NOT_VALID_ARGUMENTS);
         }
+
         ProfileResponseDto profile = profileService.updateProfile(userId, requestDto);
+
         return ResponseEntity.ok().body(CommonResponse.builder()
                 .statusCode(HttpStatus.OK.value())
                 .msg("프로필 수정 성공\uD83C\uDF89")
