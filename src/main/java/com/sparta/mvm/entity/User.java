@@ -57,7 +57,6 @@ public class User extends Timestamped {
 
     public void update(ProfileRequestDto requestDto) {
         this.name = requestDto.getName();
-        this.email = requestDto.getEmail();
         this.lineIntro = requestDto.getLineIntro();
         this.password = requestDto.getChangedPassword();
     }

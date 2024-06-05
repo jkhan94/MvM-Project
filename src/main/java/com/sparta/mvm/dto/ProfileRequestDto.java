@@ -2,7 +2,6 @@ package com.sparta.mvm.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,10 +10,6 @@ import lombok.NoArgsConstructor;
 public class ProfileRequestDto {
     @NotBlank
     private String name;
-
-    @NotBlank
-    @Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
-    private String email;
 
     private String lineIntro;
 

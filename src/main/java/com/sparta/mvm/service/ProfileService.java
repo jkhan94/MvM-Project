@@ -23,7 +23,7 @@ public class ProfileService {
     }
 
     @Transactional
-    public ProfileResponseDto updateSchedule(Long userId, ProfileRequestDto requestDto) {
+    public ProfileResponseDto updateProfile(Long userId, ProfileRequestDto requestDto) {
         User user = profileRepository.findById(userId).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
         // 비밀번호를 바꿀 때
