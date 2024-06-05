@@ -27,5 +27,6 @@ public class Post extends Timestamped{
 
     public void update(String contents) {
         this.contents = contents;
+        this.user = user;
     }
 }
