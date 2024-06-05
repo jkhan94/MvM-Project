@@ -2,18 +2,17 @@ package com.sparta.mvm.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class PostUpdateRequest {
-    private Long id;
 
     @NotBlank(message = "내용을 입력해 주세요")
     private String contents;
 
-    public PostUpdateRequest(Long id,String contents) {
-        this.id = id;
+    public PostUpdateRequest(String contents) {
         this.contents = contents;
     }
-
 
 }

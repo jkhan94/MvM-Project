@@ -17,12 +17,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PostService {
-
     private final PostRepository postRepository;
 
     public PostResponse findById(long postId) {
         Post post = findPostById(postId);
-        return PostResponse.toList(post, "게시글 조회 성공 🎉", 200);
+        return PostResponse.toList("게시글 조회 성공 🎉", 200, post);
     }
 
     private Post findPostById(long postId) {
@@ -32,7 +31,7 @@ public class PostService {
     @Transactional
     public PostResponse save(PostCreateRequest request) {
         Post post = postRepository.save(request.toEntity());
-        return PostResponse.toDto(post, "게시글 등록 성공 🎉", 200);
+        return PostResponse.toDto("게시글 등록 성공 🎉", 200, post);
     }
 
 
@@ -42,7 +41,7 @@ public class PostService {
         return list
                 .stream()
                 .sorted(Comparator.comparing(Post::getCreatedAt).reversed())
-                .map(post -> PostResponse.toList(post, "게시글 조회 성공 🎉", 200))
+                .map(post -> PostResponse.toList("게시글 조회 성공 🎉", 200, post))
                 .toList();
     }
 
@@ -50,14 +49,14 @@ public class PostService {
     public PostResponse update(Long postId, PostUpdateRequest request) {
         Post post = findPostById(postId);
         post.update(request.getContents());
-        return PostResponse.toDto(post, "게시글 수정 성공 🎉", 200);
+        return PostResponse.toDto("게시글 수정 성공 🎉", 200, post);
     }
 
 
     @Transactional
-    public PostResponse delete(Long postId, PostDeleteRequest request) {
+    public PostResponse delete(Long postId) {
         Post post = findPostById(postId);
         postRepository.delete(post);
-        return PostResponse.toDeleteResponse(post, "게시글 삭제 성공 🎉", 200);
+        return PostResponse.toDeleteResponse( "게시글 삭제 성공 🎉", 200);
     }
 }

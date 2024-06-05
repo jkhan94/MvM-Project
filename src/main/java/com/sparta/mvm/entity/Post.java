@@ -16,7 +16,7 @@ public class Post extends Timestamped{
     @Column(name = "Contents",nullable = false)
     private String contents;
 
-    @ManyToOne
+   @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
