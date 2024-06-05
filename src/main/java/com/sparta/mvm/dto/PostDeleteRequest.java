@@ -2,8 +2,10 @@ package com.sparta.mvm.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class PostDeleteRequest {
 
     @NotNull

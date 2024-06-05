@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,39 +31,39 @@ public class PostController {
 
     // 게시글 전체 조회
     @GetMapping("/post")
-    public ResponseEntity<List<PostResponse>> getAll() {
+    public ResponseEntity<Map<String, Object>> getAll() {
         List<PostResponse> newsFeed = service.getAll();
         if (newsFeed.isEmpty()) {
             // 뉴스피드가 비어있는 경우
-            String message = "먼저 작성하여 소식을 알려보세요 📝";
-            return ResponseEntity.ok().body(Collections.singletonList(PostResponse.builder()
-                    .statusCode(HttpStatus.OK.value())
-                    .msg(message)
-                    .build()));
+            Map<String, Object> response = new HashMap<>();
+            response.put("statusCode", HttpStatus.OK.value());
+            response.put("msg", "먼저 작성하여 소식을 알려보세요 📝");
+            return ResponseEntity.ok().body(response);
         } else {
             // 뉴스피드가 있는 경우
-            return ResponseEntity.ok().body(newsFeed);
+            return ResponseEntity.ok().body(Collections.singletonMap("newsFeed", newsFeed));
         }
     }
 
     // 게시글 부분 조회
     @GetMapping("/post/{postId}")
     public ResponseEntity<PostResponse> findById(@PathVariable(name = "postId") long postId) {
-        return ResponseEntity.ok()
-                .body(service.findById(postId));
+        return ResponseEntity.ok().body(service.findById(postId));
     }
 
     // 게시글 수정
     @PutMapping("/post/{postId}")
-    public ResponseEntity<PostResponse> update(@PathVariable Long postId, @Valid @RequestBody PostUpdateRequest request){
+    public ResponseEntity<PostResponse> update(@PathVariable(name = "postId") long postId, @Valid @RequestBody PostUpdateRequest request){
         return ResponseEntity.ok().body(service.update(postId,request));
     }
 
     //게시글 삭제
     @DeleteMapping("/post/{postId}")
-    public ResponseEntity<PostResponse> delete(@PathVariable Long postId, @Valid @RequestBody PostDeleteRequest request){
-        return ResponseEntity.ok()
-                .body(service.delete(postId, request));
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "postId") long postId) {
+        service.delete(postId);
+        Map<String, Object> response = new HashMap<>();
+        response.put("statusCode", HttpStatus.OK.value());
+        response.put("msg", "게시글 삭제 성공 🎉");
+        return ResponseEntity.ok().body(response);
     }
-
 }
