@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final PasswordConfig passwordConfig;
-    // repository
+    // TODO: userRepository 정의 후 user객체 받아올수 있도록 하기
 
     public UserDetailsServiceImpl(PasswordConfig passwordConfig) {
         this.passwordConfig = passwordConfig;

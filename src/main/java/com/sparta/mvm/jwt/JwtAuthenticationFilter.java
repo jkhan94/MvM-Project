@@ -47,6 +47,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
         //UserRoleEnum role = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getRole();
 
+        // TODO: refresh토큰 생성, 쿠키에 넣기
         String token = jwtUtil.createToken(username);
         jwtUtil.addJwtToCookie(token, response);
     }
