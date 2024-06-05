@@ -20,11 +20,12 @@ public class Post extends Timestamped{
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
-    public Post(String contents, User user) {
-        this.contents = contents;
-        this.user = user;
-    }
+
     public Post(String contents) {
+        this.contents = contents;
+    }
+
+    public void update(String contents) {
         this.contents = contents;
     }
 }

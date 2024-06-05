@@ -41,6 +41,7 @@ public class User extends Timestamped {
     @Column(name = "USER_STATUS_TIME", nullable = false)
     private LocalDate userStatusTime;
 
+
 /*    public void User(UserRequestDto userRequestDto){
 
         this.loginId = userRequestDto.getLoginid();
@@ -53,5 +54,5 @@ public class User extends Timestamped {
 
     @OneToMany(mappedBy = "user")
     private List<Post> post;
-
+*/
 }
