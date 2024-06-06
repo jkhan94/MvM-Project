@@ -1,6 +1,6 @@
 package com.sparta.mvm.jwt;
 
-import com.sparta.mvm.AuthTest.AuthService;
+import com.sparta.mvm.AuthTest.AuthTestService;
 import com.sparta.mvm.AuthTest.CheckValidToken;
 import com.sparta.mvm.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
@@ -22,9 +22,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
-    private final AuthService authService;
+    private final AuthTestService authService;
 
-    public JwtAuthorizationFilter(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService, AuthService authService) {
+    public JwtAuthorizationFilter(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService, AuthTestService authService) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
         this.authService = authService;

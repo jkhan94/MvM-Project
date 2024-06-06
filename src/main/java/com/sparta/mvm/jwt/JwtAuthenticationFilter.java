@@ -1,7 +1,7 @@
 package com.sparta.mvm.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.mvm.AuthTest.AuthService;
+import com.sparta.mvm.AuthTest.AuthTestService;
 import com.sparta.mvm.dto.LoginRequestDto;
 import com.sparta.mvm.security.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
@@ -17,10 +17,10 @@ import java.io.IOException;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final JwtUtil jwtUtil;
-    private final AuthService authService;
+    private final AuthTestService authService;
 
     // 로그인 요청 url
-    public JwtAuthenticationFilter(JwtUtil jwtUtil, AuthService authService) {
+    public JwtAuthenticationFilter(JwtUtil jwtUtil, AuthTestService authService) {
         this.jwtUtil = jwtUtil;
         this.authService = authService;
         setFilterProcessesUrl("/user/login");

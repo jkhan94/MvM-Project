@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthTestContoller {
 
-    private final AuthService authService;
+    private final AuthTestService authService;
 
     @GetMapping("/init")
     public ResponseEntity<CommonResponse<Void>> test() {
