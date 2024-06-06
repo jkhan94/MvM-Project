@@ -13,11 +13,11 @@ public class Post extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "Contents", nullable = false)
+    @Column(name = "Contents",nullable = false)
     private String contents;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
 
