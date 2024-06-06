@@ -10,13 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-import static com.sparta.mvm.exception.ErrorEnum.NOT_VALID_ARGUMENTS;
 import static com.sparta.mvm.exception.ErrorEnum.USER_NOT_FOUND;
 
 @Slf4j
@@ -39,20 +34,10 @@ public class ProfileController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<CommonResponse> updateProfile(@PathVariable Long userId, @Valid @RequestBody ProfileRequestDto requestDto,
-                                                        BindingResult bindingResult) {
+    public ResponseEntity<CommonResponse> updateProfile(@PathVariable Long userId, @Valid @RequestBody ProfileRequestDto requestDto) {
         // userId가 전달되지 않은 경우
         if (userId == null) {
             throw new CustomException(USER_NOT_FOUND);
-        }
-
-        // validation 처리
-        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-        if (!fieldErrors.isEmpty()) {
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                log.error(fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage());
-            }
-            throw new CustomException(NOT_VALID_ARGUMENTS);
         }
 
         ProfileResponseDto profile = profileService.updateProfile(userId, requestDto);
