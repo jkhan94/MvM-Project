@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
 
-    // TODO: 테스트용
+    // 테스트용
     private final TestUser user;
 
     public UserDetailsImpl(TestUser user) {

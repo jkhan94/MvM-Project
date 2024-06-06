@@ -2,8 +2,6 @@ package com.sparta.mvm.AuthTest;
 
 import com.sparta.mvm.config.PasswordConfig;
 import com.sparta.mvm.jwt.JwtUtil;
-import com.sparta.mvm.security.UserDetailsImpl;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
