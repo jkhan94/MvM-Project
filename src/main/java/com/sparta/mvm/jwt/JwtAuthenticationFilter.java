@@ -1,6 +1,7 @@
 package com.sparta.mvm.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.mvm.AuthTest.AuthService;
 import com.sparta.mvm.dto.LoginRequestDto;
 import com.sparta.mvm.security.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
@@ -16,10 +17,13 @@ import java.io.IOException;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final JwtUtil jwtUtil;
+    private final AuthService authService;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil) {
+    // 로그인 요청 url
+    public JwtAuthenticationFilter(JwtUtil jwtUtil, AuthService authService) {
         this.jwtUtil = jwtUtil;
-        setFilterProcessesUrl("/api/user/login");
+        this.authService = authService;
+        setFilterProcessesUrl("/user/login");
     }
 
     @Override
@@ -47,9 +51,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
         //UserRoleEnum role = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getRole();
 
-        // TODO: refresh토큰 생성, 쿠키에 넣기
-        String token = jwtUtil.createToken(username);
-        jwtUtil.addJwtToCookie(token, response);
+        String refreshToken = jwtUtil.createRefreshToken(username);
+        jwtUtil.addRefreshJwtToCookie(refreshToken, response);
+
+        String token = jwtUtil.createAccessToken(username);
+        jwtUtil.addAccessJwtToCookie(token, response);
+
+        authService.login(username, refreshToken);
     }
 
     @Override

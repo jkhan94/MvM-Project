@@ -1,7 +1,7 @@
 package com.sparta.mvm.security;
 
-import com.sparta.mvm.entity.TestUser;
-//import com.sparta.mvm.entity.User;
+import com.sparta.mvm.AuthTest.TestUser;
+import com.sparta.mvm.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,6 +10,7 @@ import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
 
+    // TODO: 테스트용
     private final TestUser user;
 
     public UserDetailsImpl(TestUser user) {
@@ -28,7 +29,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getLoginId();
+        return user.getUsername();
     }
 
     @Override
