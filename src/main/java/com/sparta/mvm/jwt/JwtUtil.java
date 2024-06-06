@@ -109,7 +109,8 @@ public class JwtUtil {
         } catch (SecurityException | MalformedJwtException | SignatureException e) {
             logger.error("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.");
         } catch (ExpiredJwtException e) {
-            logger.error("Expired JWT token, 만료된 JWT token 입니다.");
+            logger.warn("Expired JWT token, 만료된 JWT token 입니다.");
+            return true;
         } catch (UnsupportedJwtException e) {
             logger.error("Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.");
         } catch (IllegalArgumentException e) {
@@ -142,23 +143,6 @@ public class JwtUtil {
         } catch (IllegalArgumentException e) {
             check.setValidRefreshToken(false);
         }
-    }
-
-    public boolean isExpiredToken(String token) {
-        Date now = new Date();
-        boolean isExpired;
-        try {
-            isExpired = now.after(Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getExpiration());
-        } catch (ExpiredJwtException e) {
-            isExpired = true;
-            return isExpired;
-        }
-        return isExpired;
     }
 
     // 토큰에서 사용자 정보 가져오기
