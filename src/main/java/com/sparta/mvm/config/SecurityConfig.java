@@ -1,6 +1,7 @@
 package com.sparta.mvm.config;
 
 import com.sparta.mvm.AuthTest.AuthTestService;
+import com.sparta.mvm.jwt.JwtAuthenticationFilter;
 import com.sparta.mvm.jwt.JwtAuthorizationFilter;
 import com.sparta.mvm.jwt.JwtUtil;
 import com.sparta.mvm.security.UserDetailsServiceImpl;
@@ -21,7 +22,7 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
-    private final AuthTestService authService;
+    private final AuthTestService authService;  // 변경된 서비스 클래스 사용
 
     public SecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService, AuthenticationConfiguration authenticationConfiguration, AuthTestService authService) {
         this.jwtUtil = jwtUtil;
@@ -57,6 +58,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
+                        .requestMatchers("/api/auth/login").permitAll()  // 로그인 엔드포인트 추가, 인증되지 않은 사용자도 로그인 요청을 할 수 있도록
                         .requestMatchers("/user/init").permitAll()
                         .anyRequest().authenticated()
         );
