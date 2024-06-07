@@ -1,6 +1,6 @@
 package com.sparta.mvm.security;
 
-import com.sparta.mvm.AuthTest.TestUser;
+import com.sparta.mvm.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,10 +9,9 @@ import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
 
-    // 테스트용
-    private final TestUser user;
+    private final User user;
 
-    public UserDetailsImpl(TestUser user) {
+    public UserDetailsImpl(User user) {
         this.user = user;
     }
 
