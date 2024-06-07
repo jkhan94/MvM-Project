@@ -26,6 +26,15 @@ public class GlobalExceptionHandler {
                 .build());
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<CommonResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        return ResponseEntity.ok().body(CommonResponse.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .msg(ex.getBindingResult().getFieldError().getDefaultMessage())
+                .build());
+    }
+
     // 나머지 에러
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<CommonResponse> handleException(Exception ex) {
