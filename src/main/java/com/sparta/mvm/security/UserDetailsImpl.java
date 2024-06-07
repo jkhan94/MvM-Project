@@ -1,7 +1,6 @@
 package com.sparta.mvm.security;
 
 import com.sparta.mvm.AuthTest.TestUser;
-import com.sparta.mvm.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

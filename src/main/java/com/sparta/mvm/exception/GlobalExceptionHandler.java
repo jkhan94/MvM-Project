@@ -9,20 +9,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-//    @ExceptionHandler({CustomException.class})
-//    protected ResponseEntity handleCustomException(CustomException ex) {
-//        return ResponseEntity.ok().body(CommonResponse.builder()
-//                .statusCode(ex.getStatusEnum().getStatusCode())
-//                .msg(ex.getStatusEnum().getMsg())
-//                .build());
-//    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<CommonResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    @ExceptionHandler({CustomException.class})
+    protected ResponseEntity handleCustomException(CustomException ex) {
         return ResponseEntity.ok().body(CommonResponse.builder()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .msg(ex.getBindingResult().getFieldError().getDefaultMessage())
+                .statusCode(ex.getStatusEnum().getStatusCode())
+                .msg(ex.getStatusEnum().getMsg())
                 .build());
     }
 
