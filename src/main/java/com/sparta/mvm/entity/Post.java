@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "posts")
 @NoArgsConstructor
-public class Post extends Timestamped{
+public class Post extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,7 +16,7 @@ public class Post extends Timestamped{
     @Column(name = "Contents",nullable = false)
     private String contents;
 
-   @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
