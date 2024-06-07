@@ -6,5 +6,5 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class CustomException extends RuntimeException {
-    private final ErrorEnum statusEnum = ErrorEnum.SAME_PASSWORD;
+    private final ErrorEnum statusEnum;
 }
