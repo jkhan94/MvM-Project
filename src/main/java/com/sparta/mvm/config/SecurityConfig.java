@@ -1,10 +1,10 @@
 package com.sparta.mvm.config;
 
-import com.sparta.mvm.AuthTest.AuthTestService;
 import com.sparta.mvm.jwt.JwtAuthenticationFilter;
 import com.sparta.mvm.jwt.JwtAuthorizationFilter;
 import com.sparta.mvm.jwt.JwtUtil;
 import com.sparta.mvm.security.UserDetailsServiceImpl;
+import com.sparta.mvm.service.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,9 +22,9 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
-    private final AuthTestService authService;  // 변경된 서비스 클래스 사용
+    private final AuthService authService;  // 변경된 서비스 클래스 사용
 
-    public SecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService, AuthenticationConfiguration authenticationConfiguration, AuthTestService authService) {
+    public SecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService, AuthenticationConfiguration authenticationConfiguration, AuthService authService) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
         this.authenticationConfiguration = authenticationConfiguration;

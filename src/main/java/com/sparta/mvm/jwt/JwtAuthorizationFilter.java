@@ -1,8 +1,8 @@
 package com.sparta.mvm.jwt;
 
-import com.sparta.mvm.AuthTest.AuthTestService;
 import com.sparta.mvm.AuthTest.CheckValidToken;
 import com.sparta.mvm.security.UserDetailsServiceImpl;
+import com.sparta.mvm.service.AuthService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,9 +22,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
-    private final AuthTestService authService;
+    private final AuthService authService;
 
-    public JwtAuthorizationFilter(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService, AuthTestService authService) {
+    public JwtAuthorizationFilter(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService, AuthService authService) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
         this.authService = authService;
@@ -43,7 +43,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             refreshTokenValue = jwtUtil.substringToken(refreshTokenValue);
 
             // 재발급 요청, 로그인 요청시 검증 X  +재발급 요청의 경우 토큰 재발급 메서드 실행
-            if (req.getRequestURI().equals("/user/reissue")) {
+            if (req.getRequestURI().equals("/user/reissue")) {   // postman 테스트시 사용 할 코드
                 authService.tokenReissuance(refreshTokenValue, res);
                 // 토큰 재발급 후 인증객체 생성
                 try {
