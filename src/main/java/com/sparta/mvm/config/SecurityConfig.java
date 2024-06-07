@@ -1,10 +1,10 @@
 package com.sparta.mvm.config;
 
-import com.sparta.mvm.AuthTest.AuthService;
 import com.sparta.mvm.jwt.JwtAuthenticationFilter;
 import com.sparta.mvm.jwt.JwtAuthorizationFilter;
 import com.sparta.mvm.jwt.JwtUtil;
 import com.sparta.mvm.security.UserDetailsServiceImpl;
+import com.sparta.mvm.service.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -61,6 +61,7 @@ public class SecurityConfig {
                         .requestMatchers("/posts/**").permitAll()
                         .requestMatchers("/comments/**").permitAll()
                         .requestMatchers("/posts/{postId}/comments").permitAll()
+                        .requestMatchers("/user/init").permitAll()
                         .anyRequest().authenticated()
         );
 

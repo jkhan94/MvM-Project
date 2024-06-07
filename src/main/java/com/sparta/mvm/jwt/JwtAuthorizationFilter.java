@@ -1,8 +1,8 @@
 package com.sparta.mvm.jwt;
 
-import com.sparta.mvm.AuthTest.AuthService;
 import com.sparta.mvm.AuthTest.CheckValidToken;
 import com.sparta.mvm.security.UserDetailsServiceImpl;
+import com.sparta.mvm.service.AuthService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -43,7 +43,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             refreshTokenValue = jwtUtil.substringToken(refreshTokenValue);
 
             // 재발급 요청, 로그인 요청시 검증 X  +재발급 요청의 경우 토큰 재발급 메서드 실행
-            if (req.getRequestURI().equals("/user/reissue")) {
+            if (req.getRequestURI().equals("/user/reissue")) {   // postman 테스트시 사용 할 코드
                 authService.tokenReissuance(refreshTokenValue, res);
                 // 토큰 재발급 후 인증객체 생성
                 try {
@@ -83,6 +83,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 }
             }
         }
+        successLogin(res);
         filterChain.doFilter(req, res);
     }
 
@@ -100,5 +101,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         return new UsernamePasswordAuthenticationToken(userDetails, null, null);
+    }
+
+
+    private void successLogin(HttpServletResponse res) {
+        try {
+            res.setCharacterEncoding("UTF-8");
+            res.getWriter().write("로그인이 성공하였습니다! (토큰/리프레시토큰 생성)");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 }
