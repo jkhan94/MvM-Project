@@ -36,16 +36,25 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         String tokenValue = jwtUtil.getAccessTokenFromRequest(req);
         String refreshTokenValue = jwtUtil.getRefreshTokenFromRequest(req);
-        // JWT 토큰 substring
-        tokenValue = jwtUtil.substringToken(tokenValue);
-        refreshTokenValue = jwtUtil.substringToken(refreshTokenValue);
-        // 재발급 요청, 로그인 요청시 검증 X  +재발급 요청의 경우 토큰 재발급 메서드 실행
-        if (req.getRequestURI().equals("/user/reissue")) {
-            authService.tokenReissuance(refreshTokenValue, res);
-        } else if (!req.getRequestURI().equals("/user/login")) {
-            CheckValidToken isCheckToken = new CheckValidToken();
 
-            if (StringUtils.hasText(tokenValue) && StringUtils.hasText(refreshTokenValue)) {
+        if (StringUtils.hasText(tokenValue) && StringUtils.hasText(refreshTokenValue)) {
+            // JWT 토큰 substring
+            tokenValue = jwtUtil.substringToken(tokenValue);
+            refreshTokenValue = jwtUtil.substringToken(refreshTokenValue);
+
+            // 재발급 요청, 로그인 요청시 검증 X  +재발급 요청의 경우 토큰 재발급 메서드 실행
+            if (req.getRequestURI().equals("/user/reissue")) {
+                authService.tokenReissuance(refreshTokenValue, res);
+                // 토큰 재발급 후 인증객체 생성
+                try {
+                    Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
+                    setAuthentication(info.getSubject());
+
+                } catch (Exception e) {
+                    return;
+                }
+            } else if (!req.getRequestURI().equals("/user/login")) {
+                CheckValidToken isCheckToken = new CheckValidToken();
 
                 jwtUtil.setIsCheckToken(tokenValue, refreshTokenValue, isCheckToken);
                 // jwtAccess토큰 오류검증
@@ -74,7 +83,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 }
             }
         }
-
         filterChain.doFilter(req, res);
     }
 
