@@ -61,6 +61,7 @@ public class JwtUtil {
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
                         .compact();
     }
+
     public String createRefreshToken(String username) {
         return createToken(username, REFRESH_TOKEN_TIME);
     }
@@ -87,7 +88,8 @@ public class JwtUtil {
     public void addRefreshJwtToCookie(String token, HttpServletResponse res) {
         addJwtToCookie(token, res, REFRESHTOKEN_HEADER);
     }
-    public void addAccessJwtToCookie(String token, HttpServletResponse res){
+
+    public void addAccessJwtToCookie(String token, HttpServletResponse res) {
         addJwtToCookie(token, res, AUTHORIZATION_HEADER);
     }
 
@@ -119,7 +121,7 @@ public class JwtUtil {
         return false;
     }
 
-    public void setIsCheckToken(String token,String refreshToken, CheckValidToken check) {
+    public void setIsCheckToken(String token, String refreshToken, CheckValidToken check) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
         } catch (SecurityException | MalformedJwtException | SignatureException e) {
@@ -153,7 +155,7 @@ public class JwtUtil {
     // HttpServletRequest 에서 Cookie Value : JWT 가져오기
     public String getTokenFromRequest(HttpServletRequest req, String headerName) {
         Cookie[] cookies = req.getCookies();
-        if(cookies != null) {
+        if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(headerName)) {
                     try {
