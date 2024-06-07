@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
@@ -24,7 +23,7 @@ public class PostResponse {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedAt;
 
-    public PostResponse(String msg, int statusCode,Long Id,  String contents, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public PostResponse(String msg, int statusCode, Long Id, String contents, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.msg = msg;
         this.statusCode = statusCode;
         this.id = Id;
@@ -41,12 +40,12 @@ public class PostResponse {
     }
 
     // 게시글 조회
-    public static PostResponse toList( String msg, int statusCode,Post post ) {
+    public static PostResponse toList(String msg, int statusCode, Post post) {
         return PostResponse.builder()
                 .msg(msg)
                 .statusCode(statusCode)
                 .id(post.getId())
-           //   .username(post.getUser().getUsername())
+                //   .username(post.getUser().getUsername())
                 .contents(post.getContents())
                 .createdAt(post.getCreatedAt())
                 .modifiedAt(post.getModifiedAt())
@@ -54,11 +53,11 @@ public class PostResponse {
     }
 
     //게시글 등록, 수정
-    public static PostResponse toDto(String msg, int statusCode,Post post ) {
+    public static PostResponse toDto(String msg, int statusCode, Post post) {
         return PostResponse.builder()
                 .msg(msg)
                 .statusCode(statusCode)
-           //   .username(post.getUser().getUsername())
+                //   .username(post.getUser().getUsername())
                 .contents(post.getContents())
                 .createdAt(post.getCreatedAt())
                 .modifiedAt(post.getModifiedAt())

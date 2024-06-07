@@ -1,7 +1,6 @@
 package com.sparta.mvm.service;
 
 import com.sparta.mvm.dto.PostCreateRequest;
-import com.sparta.mvm.dto.PostDeleteRequest;
 import com.sparta.mvm.dto.PostResponse;
 import com.sparta.mvm.dto.PostUpdateRequest;
 import com.sparta.mvm.entity.Post;
@@ -57,6 +56,6 @@ public class PostService {
     public PostResponse delete(Long postId) {
         Post post = findPostById(postId);
         postRepository.delete(post);
-        return PostResponse.toDeleteResponse( "게시글 삭제 성공 🎉", 200);
+        return PostResponse.toDeleteResponse("게시글 삭제 성공 🎉", 200);
     }
 }

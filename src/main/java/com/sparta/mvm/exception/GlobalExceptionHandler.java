@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-//    @ExceptionHandler({CustomException.class})
-//    protected ResponseEntity handleCustomException(CustomException ex) {
-//        return ResponseEntity.ok().body(CommonResponse.builder()
-//                .statusCode(ex.getStatusEnum().getStatusCode())
-//                .msg(ex.getStatusEnum().getMsg())
-//                .build());
-//    }
+    @ExceptionHandler({CustomException.class})
+    protected ResponseEntity handleCustomException(CustomException ex) {
+        return ResponseEntity.ok().body(CommonResponse.builder()
+                .statusCode(ex.getStatusEnum().getStatusCode())
+                .msg(ex.getStatusEnum().getMsg())
+                .build());
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
