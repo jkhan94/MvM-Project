@@ -22,7 +22,7 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
-    private final AuthService authService;  // 변경된 서비스 클래스 사용
+    private final AuthService authService;
 
     public SecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService, AuthenticationConfiguration authenticationConfiguration, AuthService authService) {
         this.jwtUtil = jwtUtil;
@@ -49,19 +49,22 @@ public class SecurityConfig {
         return new JwtAuthorizationFilter(jwtUtil, userDetailsService, authService);
     }
 
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf((csrf) -> csrf.disable());
-
         http.sessionManagement((sessionManagement) ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
-                        .requestMatchers("/api/auth/login").permitAll()  // 로그인 엔드포인트 추가, 인증되지 않은 사용자도 로그인 요청을 할 수 있도록
+                        .requestMatchers("/posts").permitAll()
+                        .requestMatchers("/posts/**").permitAll()
+                        .requestMatchers("/comments/**").permitAll()
+                        .requestMatchers("/posts/{postId}/comments").permitAll()
                         .requestMatchers("/user/init").permitAll()
                         .anyRequest().authenticated()
         );
+
 
         http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
