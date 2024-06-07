@@ -2,6 +2,7 @@ package com.sparta.mvm.AuthTest;
 
 import com.sparta.mvm.exception.CommonResponse;
 import com.sparta.mvm.security.UserDetailsImpl;
+import com.sparta.mvm.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +17,7 @@ public class AuthTestContoller {
 
     private final AuthService authService;
 
+    // db에 TestUser 값 하나 넣기
     @GetMapping("/init")
     public ResponseEntity<CommonResponse<Void>> test() {
         authService.initTable();
@@ -25,6 +27,7 @@ public class AuthTestContoller {
                 .build());
     }
 
+    // 테스트용 url 요청, 정식 토큰발급받았을 시 정상 적인 반환,토큰 만료나 없으면 아무런 메시지 없음
     @GetMapping("/test")
     public ResponseEntity<CommonResponse<TestUser>> tokenReissuance(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         TestUser testUser = new TestUser();

@@ -1,9 +1,9 @@
 package com.sparta.mvm.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.mvm.AuthTest.AuthService;
 import com.sparta.mvm.dto.LoginRequestDto;
 import com.sparta.mvm.security.UserDetailsImpl;
+import com.sparta.mvm.service.AuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,9 +57,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String token = jwtUtil.createAccessToken(username);
         jwtUtil.addAccessJwtToCookie(token, response);
 
-        authService.setRefreshToken(username, refreshToken);
-        authService.setRefreshTokenValid(username, true);
-        authService.login(username, refreshToken);
+//        authService.setRefreshToken(username, refreshToken);
+//        authService.setRefreshTokenValid(username, true);
+        authService.saveRefreshToken(username, refreshToken);
     }
 
     @Override
