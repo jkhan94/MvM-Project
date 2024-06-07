@@ -45,7 +45,7 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponse update(Long postId, PostUpdateRequest request) {
+    public PostResponse update(long postId, PostUpdateRequest request) {
         Post post = findPostById(postId);
         post.update(request.getContents());
         return PostResponse.toDto("게시글 수정 성공 🎉", 200, post);
@@ -53,7 +53,7 @@ public class PostService {
 
 
     @Transactional
-    public PostResponse delete(Long postId) {
+    public PostResponse delete(long postId) {
         Post post = findPostById(postId);
         postRepository.delete(post);
         return PostResponse.toDeleteResponse("게시글 삭제 성공 🎉", 200);
