@@ -57,8 +57,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String token = jwtUtil.createAccessToken(username);
         jwtUtil.addAccessJwtToCookie(token, response);
 
-        authService.setRefreshToken(username, refreshToken);
-        authService.setRefreshTokenValid(username, true);
+//        authService.setRefreshToken(username, refreshToken);
+//        authService.setRefreshTokenValid(username, true);
         authService.saveRefreshToken(username, refreshToken);
     }
 
