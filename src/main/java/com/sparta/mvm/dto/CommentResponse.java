@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -43,6 +42,26 @@ public class CommentResponse {
         return CommentResponse.builder()
                 .msg(msg)
                 .statusCode(statusCode)
+                .comments(comment.getComments())
+                .createdAt(comment.getCreatedAt())
+                .modifiedAt(comment.getModifiedAt())
+                .build();
+    }
+
+    // 댓글 삭제
+    public static CommentResponse toDeleteResponse(String msg, int statusCode) {
+        return CommentResponse.builder()
+                .msg(msg)
+                .statusCode(statusCode)
+                .build();
+    }
+
+    // 댓글 조회
+    public static CommentResponse toList(String msg, int statusCode, Comment comment) {
+        return CommentResponse.builder()
+                .msg(msg)
+                .statusCode(statusCode)
+                .id(comment.getId())
                 .comments(comment.getComments())
                 .createdAt(comment.getCreatedAt())
                 .modifiedAt(comment.getModifiedAt())

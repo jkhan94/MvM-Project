@@ -22,13 +22,13 @@ public class PostController {
     public final PostService service;
 
     // 게시글 등록
-    @PostMapping("/post")
+    @PostMapping("/posts")
     public ResponseEntity<PostResponse> create(@Valid @RequestBody PostCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(request));
     }
 
     // 게시글 전체 조회
-    @GetMapping("/post")
+    @GetMapping("/posts")
     public ResponseEntity<Map<String, Object>> getAll() {
         List<PostResponse> newsFeed = service.getAll();
         if (newsFeed.isEmpty()) {
@@ -44,19 +44,19 @@ public class PostController {
     }
 
     // 게시글 부분 조회
-    @GetMapping("/post/{postId}")
+    @GetMapping("/posts/{postId}")
     public ResponseEntity<PostResponse> findById(@PathVariable(name = "postId") long postId) {
         return ResponseEntity.ok().body(service.findById(postId));
     }
 
     // 게시글 수정
-    @PutMapping("/post/{postId}")
+    @PutMapping("/posts/{postId}")
     public ResponseEntity<PostResponse> update(@PathVariable(name = "postId") long postId, @Valid @RequestBody PostUpdateRequest request) {
         return ResponseEntity.ok().body(service.update(postId, request));
     }
 
     //게시글 삭제
-    @DeleteMapping("/post/{postId}")
+    @DeleteMapping("/posts/{postId}")
     public ResponseEntity<Map<String, Object>> delete(@PathVariable(name = "postId") long postId) {
         service.delete(postId);
         Map<String, Object> response = new HashMap<>();

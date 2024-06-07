@@ -14,7 +14,7 @@ public class Comment extends Timestamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "Comments",nullable = false)
+    @Column(name = "COMMENTS",nullable = false)
     private String comments;
 
     @ManyToOne
@@ -31,6 +31,10 @@ public class Comment extends Timestamped{
         this.post = post;
         this.user = user;
     }
+    public Comment(CommentCreateRequest commentCreateRequest,Post post) {
+        this.comments = commentCreateRequest.getComments();
+        this.post = post;
+    }
     public Comment(CommentCreateRequest request, Post post, User user) {
         this.comments = request.getComments();
         this.post = post;
@@ -42,4 +46,13 @@ public class Comment extends Timestamped{
         this.comments = comments;
     }
 
+    public Comment(String comments, Post post)
+    {
+        this.comments = comments;
+        this.post = post;
+    }
+
+    public void update(String comments) {
+        this.comments = comments;
+    }
 }
