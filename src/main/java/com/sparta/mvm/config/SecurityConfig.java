@@ -1,7 +1,6 @@
 package com.sparta.mvm.config;
 
 import com.sparta.mvm.AuthTest.AuthService;
-import com.sparta.mvm.AuthTest.TestUserRepository;
 import com.sparta.mvm.jwt.JwtAuthenticationFilter;
 import com.sparta.mvm.jwt.JwtAuthorizationFilter;
 import com.sparta.mvm.jwt.JwtUtil;

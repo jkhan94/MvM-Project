@@ -42,8 +42,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         // 재발급 요청, 로그인 요청시 검증 X  +재발급 요청의 경우 토큰 재발급 메서드 실행
         if (req.getRequestURI().equals("/user/reissue")) {
             authService.tokenReissuance(refreshTokenValue, res);
-        }
-        else if (!req.getRequestURI().equals("/user/login")) {
+        } else if (!req.getRequestURI().equals("/user/login")) {
             CheckValidToken isCheckToken = new CheckValidToken();
 
             if (StringUtils.hasText(tokenValue) && StringUtils.hasText(refreshTokenValue)) {
