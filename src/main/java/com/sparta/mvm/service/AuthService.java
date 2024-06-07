@@ -34,7 +34,7 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final TestUserRepository userRepository;
     private final PasswordConfig passwordConfig;
-    private final Map<String, RefreshTokenDto> refreshTokenDtoMap = new HashMap<>();
+//    private final Map<String, RefreshTokenDto> refreshTokenDtoMap = new HashMap<>();
 
 
     public TokenResponseDto login(LoginRequestDto loginRequestDto) { //TokenResponseDto 는 로그인 성공 시 토큰 정보를 담기 위한 클래스
@@ -90,22 +90,32 @@ public class AuthService {
     }
 
 
-    // reFreshDto 값 저장하는 용도
-    public void setRefreshToken(String username, String refreshTokenValue) {
-        RefreshTokenDto tokenDto = new RefreshTokenDto(refreshTokenValue);
-        tokenDto.setTokenValid(true);
-        refreshTokenDtoMap.put(username, tokenDto);
-    }
+//    // reFreshDto 값 저장하는 용도
+//    public void setRefreshToken(String username, String refreshTokenValue) {
+//        RefreshTokenDto tokenDto = new RefreshTokenDto(refreshTokenValue);
+//        tokenDto.setTokenValid(true);
+//        refreshTokenDtoMap.put(username, tokenDto);
+//    }
+//
+//    // 요구사항중 reFresh 유효성 여부 검사하는 메서드
+//    public boolean isRefreshTokenValid(String username) {
+//        // TODO: 존재하는 유저명인지 체크
+//        RefreshTokenDto tokenDto = refreshTokenDtoMap.get(username);
+//        return tokenDto.isTokenValid();
+//    }
+//
+//    public void setRefreshTokenValid(String username, boolean valid) {
+//        // TODO: 존재하는 유저명인지 체크
+//        refreshTokenDtoMap.get(username).setTokenValid(valid);
+//    }
 
-    // 요구사항중 reFresh 유효성 여부 검사하는 메서드
-    public boolean isRefreshTokenValid(String username) {
-        // TODO: 존재하는 유저명인지 체크
-        RefreshTokenDto tokenDto = refreshTokenDtoMap.get(username);
-        return tokenDto.isTokenValid();
-    }
 
-    public void setRefreshTokenValid(String username, boolean valid) {
-        // TODO: 존재하는 유저명인지 체크
-        refreshTokenDtoMap.get(username).setTokenValid(valid);
+
+    // 데이터베이스에 초기 데이터를 넣는 로직
+    public void initTable() {
+        String password = "testPassword";
+        password = passwordEncoder.encode(password);
+        TestUser user = new TestUser("testUserId", password);
+        userRepository.save(user);
     }
 }
