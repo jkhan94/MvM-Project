@@ -83,6 +83,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 }
             }
         }
+        successLogin(res);
         filterChain.doFilter(req, res);
     }
 
@@ -100,5 +101,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         return new UsernamePasswordAuthenticationToken(userDetails, null, null);
+    }
+
+
+    private void successLogin(HttpServletResponse res) {
+        try {
+            res.setCharacterEncoding("UTF-8");
+            res.getWriter().write("로그인이 성공하였습니다! (토큰/리프레시토큰 생성)");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 }
