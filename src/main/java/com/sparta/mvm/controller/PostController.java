@@ -1,10 +1,8 @@
 package com.sparta.mvm.controller;
 
 import com.sparta.mvm.dto.PostCreateRequest;
-import com.sparta.mvm.dto.PostDeleteRequest;
 import com.sparta.mvm.dto.PostResponse;
 import com.sparta.mvm.dto.PostUpdateRequest;
-import com.sparta.mvm.entity.Post;
 import com.sparta.mvm.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +23,7 @@ public class PostController {
 
     // 게시글 등록
     @PostMapping("/post")
-    public ResponseEntity<PostResponse> create(@Valid @RequestBody PostCreateRequest request){
+    public ResponseEntity<PostResponse> create(@Valid @RequestBody PostCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(request));
     }
 
@@ -53,8 +51,8 @@ public class PostController {
 
     // 게시글 수정
     @PutMapping("/post/{postId}")
-    public ResponseEntity<PostResponse> update(@PathVariable(name = "postId") long postId, @Valid @RequestBody PostUpdateRequest request){
-        return ResponseEntity.ok().body(service.update(postId,request));
+    public ResponseEntity<PostResponse> update(@PathVariable(name = "postId") long postId, @Valid @RequestBody PostUpdateRequest request) {
+        return ResponseEntity.ok().body(service.update(postId, request));
     }
 
     //게시글 삭제
