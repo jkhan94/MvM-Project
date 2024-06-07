@@ -11,7 +11,7 @@ public class CheckValidToken {
     private boolean isValidRefreshToken;
     private boolean isExpiredRefreshToken;
 
-    public CheckValidToken(){
+    public CheckValidToken() {
         isValidToken = true;
         isExpiredToken = false;
         isValidRefreshToken = true;

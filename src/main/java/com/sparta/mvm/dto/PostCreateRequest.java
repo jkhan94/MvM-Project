@@ -14,6 +14,7 @@ public class PostCreateRequest {
     public PostCreateRequest(String contents) {
         this.contents = contents;
     }
+
     public Post toEntity() {
         return new Post(this.contents);
     }

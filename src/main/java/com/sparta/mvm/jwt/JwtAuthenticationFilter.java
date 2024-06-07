@@ -59,7 +59,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         authService.setRefreshToken(username, refreshToken);
         authService.setRefreshTokenValid(username, true);
-        authService.login(username, refreshToken);
+        authService.saveRefreshToken(username, refreshToken);
     }
 
     @Override
