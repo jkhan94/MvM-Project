@@ -1,6 +1,6 @@
 package com.sparta.mvm.jwt;
 
-import com.sparta.mvm.AuthTest.CheckValidToken;
+import com.sparta.mvm.exception.ErrorEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -104,46 +104,25 @@ public class JwtUtil {
     }
 
     // 토큰 검증
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-            return true;
-        } catch (SecurityException | MalformedJwtException | SignatureException e) {
-            logger.error("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.");
-        } catch (ExpiredJwtException e) {
-            logger.warn("Expired JWT token, 만료된 JWT token 입니다.");
-            return true;
-        } catch (UnsupportedJwtException e) {
-            logger.error("Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.");
-        } catch (IllegalArgumentException e) {
-            logger.error("JWT claims is empty, 잘못된 JWT 토큰 입니다.");
-        }
-        return false;
-    }
-
-    public void setIsCheckToken(String token, String refreshToken, CheckValidToken check) {
+    public void validToken(String token, JwtTokenType jwtTokenType, HttpServletRequest request) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
         } catch (SecurityException | MalformedJwtException | SignatureException e) {
-            check.setValidToken(false);
+            request.setAttribute("NOT_VALID_TOKEN", ErrorEnum.NOT_VALID_TOKEN);
+            throw new RuntimeException("유효하지 않는 토큰 오류");
         } catch (ExpiredJwtException e) {
-            check.setExpiredToken(true);
+            if(jwtTokenType.equals(JwtTokenType.ACCESS_TOKEN)) {
+                request.setAttribute("EXPIRED_TOKEN", ErrorEnum.EXPIRED_TOKEN_VALUE);
+                throw new RuntimeException("만료된 토큰 오류");
+            }
+            else {
+                request.setAttribute("EXPIRED_TOKEN", ErrorEnum.EXPIRED_REFRESH_TOKEN_VALUE);
+                throw new RuntimeException("만료된 리프레시 토큰 오류");
+            }
         } catch (UnsupportedJwtException e) {
-            check.setValidToken(false);
+            throw new RuntimeException("기타");
         } catch (IllegalArgumentException e) {
-            check.setValidToken(false);
-        }
-
-        try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(refreshToken);
-        } catch (SecurityException | MalformedJwtException | SignatureException e) {
-            check.setValidRefreshToken(false);
-        } catch (ExpiredJwtException e) {
-            check.setExpiredRefreshToken(true);
-        } catch (UnsupportedJwtException e) {
-            check.setValidRefreshToken(false);
-        } catch (IllegalArgumentException e) {
-            check.setValidRefreshToken(false);
+            throw new RuntimeException("기타");
         }
     }
 
