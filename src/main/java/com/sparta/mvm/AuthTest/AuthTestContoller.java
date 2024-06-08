@@ -37,4 +37,12 @@ public class AuthTestContoller {
                 .msg("테스트 API 성공")
                 .build());
     }
+
+    @GetMapping("/reissue")
+    public ResponseEntity<CommonResponse<Void>> tokenReissuance() {
+        return ResponseEntity.ok().body(CommonResponse.<Void>builder()
+                .statusCode(200)
+                .msg("토큰 재발급 성공")
+                .build());
+    }
 }

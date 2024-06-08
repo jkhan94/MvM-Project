@@ -27,21 +27,22 @@ public class AuthService {
     }
     
     // 액세스 토큰 재발급
-    public void tokenReissuance(String refreshToken, HttpServletResponse res) throws IOException {
+    public String tokenReissuance(String refreshToken, HttpServletResponse res) throws IOException {
         String username = jwtUtil.getUserInfoFromToken(refreshToken).getSubject();
-        // TODO : db에 존재하는지 체크
+        // TODO : user명이 db에 존재하는지에 따른 예외처리
         TestUser user = userRepository.findByUsername(username);
 
         // 클라이언트(현재로그인중, 리프레쉬토큰 만료x, 토큰만료 상태) 에서 보내온 refresh토큰과 db에 저장된,
         // 현재 로그인중인 username에 해당하는 refresh토큰 비교후 같으면 새로운 토큰발급
         String userTokenValue = jwtUtil.substringToken(user.getRefreshToken());
+        // TODO : DB에 저장되어 있는 토큰값과 다를시 예외처리
         if (userTokenValue.equals(refreshToken)) {
             String newToken = jwtUtil.createAccessToken(username);
             jwtUtil.addAccessJwtToCookie(newToken, res);
+            return newToken;
         }
-        res.setStatus(200);
-        res.setCharacterEncoding("UTF-8");
-        res.getWriter().write("토큰 재발급 성공");
+
+        return "";
     }
 
     public void initTable() {

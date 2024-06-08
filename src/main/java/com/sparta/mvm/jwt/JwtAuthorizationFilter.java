@@ -1,7 +1,7 @@
 package com.sparta.mvm.jwt;
 
 import com.sparta.mvm.AuthTest.AuthService;
-import com.sparta.mvm.AuthTest.CheckValidToken;
+import com.sparta.mvm.AuthTest.TokenType;
 import com.sparta.mvm.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -36,51 +36,27 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         String tokenValue = jwtUtil.getAccessTokenFromRequest(req);
         String refreshTokenValue = jwtUtil.getRefreshTokenFromRequest(req);
-
+        boolean checkError;
         if (StringUtils.hasText(tokenValue) && StringUtils.hasText(refreshTokenValue)) {
             // JWT 토큰 substring
             tokenValue = jwtUtil.substringToken(tokenValue);
             refreshTokenValue = jwtUtil.substringToken(refreshTokenValue);
 
             // 재발급 요청, 로그인 요청시 검증 X  +재발급 요청의 경우 토큰 재발급 메서드 실행
-            if (req.getRequestURI().equals("/user/reissue")) {
-                authService.tokenReissuance(refreshTokenValue, res);
-                // 토큰 재발급 후 인증객체 생성
-                try {
-                    Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
-                    setAuthentication(info.getSubject());
-
-                } catch (Exception e) {
-                    return;
+            if(req.getRequestURI().equals("/user/login")) {
+                successLogin(res);
+            }
+            else {
+                if (req.getRequestURI().equals("/user/reissue")) {
+                    jwtUtil.validToken(refreshTokenValue, TokenType.REFRESH_TOKEN, req);
+                    tokenValue = authService.tokenReissuance(refreshTokenValue, res);
+                    tokenValue = jwtUtil.substringToken(tokenValue);
+                } else {
+                    jwtUtil.validToken(refreshTokenValue, TokenType.REFRESH_TOKEN, req);
+                    jwtUtil.validToken(tokenValue, TokenType.ACCESS_TOKEN, req);
                 }
-            } else if (!req.getRequestURI().equals("/user/login")) {
-                CheckValidToken isCheckToken = new CheckValidToken();
-
-                jwtUtil.setIsCheckToken(tokenValue, refreshTokenValue, isCheckToken);
-                // jwtAccess토큰 오류검증
-                if (!jwtUtil.validateToken(tokenValue)) {
-                    return;
-                }
-                // jwtRefresh토큰 오류검증
-                if (!jwtUtil.validateToken(refreshTokenValue)) {
-                    return;
-                }
-                // TODO: 리프레쉬 토큰 만료시 재로그인 필요 메시지, 상태코드 클라에 반환하기
-                if (isCheckToken.isExpiredRefreshToken()) {
-
-                }
-                // TODO: 액세스 토큰 만료시 재발급 필요 메시지, 상태코드 클라에 반환하기
-                if (isCheckToken.isExpiredToken()) {
-
-                }
-                // 인증객체 생성
-                try {
-                    Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
-                    setAuthentication(info.getSubject());
-
-                } catch (Exception e) {
-                    return;
-                }
+                Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
+                setAuthentication(info.getSubject());
             }
         }
         filterChain.doFilter(req, res);
@@ -100,5 +76,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         return new UsernamePasswordAuthenticationToken(userDetails, null, null);
+    }
+
+    private void successLogin(HttpServletResponse res) {
+        try {
+            res.setCharacterEncoding("UTF-8");
+            res.getWriter().println("로그인이 성공하였습니다! (토큰/리프레시토큰 생성)");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.sparta.mvm.config;
 import com.sparta.mvm.AuthTest.AuthService;
 import com.sparta.mvm.jwt.JwtAuthenticationFilter;
 import com.sparta.mvm.jwt.JwtAuthorizationFilter;
+import com.sparta.mvm.jwt.JwtAuthenticationEntryPoint;
 import com.sparta.mvm.jwt.JwtUtil;
 import com.sparta.mvm.security.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +25,8 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final AuthService authService;
 
-    public SecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService, AuthenticationConfiguration authenticationConfiguration, AuthService authService) {
+    public SecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService, AuthenticationConfiguration authenticationConfiguration
+            , AuthService authService) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
         this.authenticationConfiguration = authenticationConfiguration;
@@ -48,6 +50,10 @@ public class SecurityConfig {
     public JwtAuthorizationFilter jwtAuthorizationFilter() {
         return new JwtAuthorizationFilter(jwtUtil, userDetailsService, authService);
     }
+    @Bean
+    public JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint() {
+        return new JwtAuthenticationEntryPoint();
+    }
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -61,7 +67,8 @@ public class SecurityConfig {
                         .requestMatchers("/user/init").permitAll()
                         .anyRequest().authenticated()
         );
-
+        http.exceptionHandling((exception)
+                        ->exception.authenticationEntryPoint(jwtAuthenticationEntryPoint()).accessDeniedPage("/user"));
         http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
