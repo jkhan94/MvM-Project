@@ -80,6 +80,18 @@ public class AuthService {
         return "";
     }
 
+    // 사용자의 토큰을 삭제하여 로그아웃 처리
+    public void invalidateTokens(String username) {
+        // 사용자 이름으로 사용자를 데이터베이스에서 찾습니다.
+        User user = userRepository.findByUsername(username)
+                // 만약 사용자를 찾지 못하면 예외를 던집니다.
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 사용자의 리프레시 토큰을 삭제하여 토큰을 무효화합니다.
+        user.setRefreshToken(null); // 리프레시 토큰을 null로 설정하여 초기화합니다.
+        userRepository.save(user); // 변경된 사용자 정보를 데이터베이스에 저장합니다.
+    }
+
 
 //    // reFreshDto 값 저장하는 용도
 //    public void setRefreshToken(String username, String refreshTokenValue) {
