@@ -1,8 +1,7 @@
 package com.sparta.mvm.controller;
 
-import com.sparta.mvm.dto.CommentCreateRequest;
-import com.sparta.mvm.dto.CommentResponse;
-import com.sparta.mvm.dto.CommentUpdateRequest;
+import com.sparta.mvm.dto.CommentRequestDto;
+import com.sparta.mvm.dto.CommentResponseDto;
 import com.sparta.mvm.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,14 +28,14 @@ public class CommentController {
 
     // 댓글 등록
     @PostMapping("/posts/{postId}/comments")
-    public ResponseEntity<CommentResponse> create(@PathVariable(name = "postId") long postId, @Valid @RequestBody CommentCreateRequest request) {
+    public ResponseEntity<CommentResponseDto> create(@PathVariable(name = "postId") long postId, @Valid @RequestBody CommentRequestDto request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(postId, request));
     }
 
     // 댓글 조회
     @GetMapping("/comments")
     public ResponseEntity<Map<String,Object>> getAll(){
-        List<CommentResponse> newFeed_Comment = service.getAll();
+        List<CommentResponseDto> newFeed_Comment = service.getAll();
         if(newFeed_Comment.isEmpty())
         {
             Map<String,Object> response = new HashMap<>();
@@ -51,7 +50,7 @@ public class CommentController {
 
     // 댓글 수정
     @PutMapping("/comments/{commentId}")
-    public ResponseEntity<CommentResponse> update(@PathVariable(name = "commentId") long commentId, @Valid @RequestBody CommentUpdateRequest request) {
+    public ResponseEntity<CommentResponseDto> update(@PathVariable(name = "commentId") long commentId, @Valid @RequestBody CommentRequestDto request) {
         return ResponseEntity.ok().body(service.update(commentId,request));
     }
 

@@ -1,6 +1,6 @@
 package com.sparta.mvm.entity;
 
-import com.sparta.mvm.dto.CommentCreateRequest;
+import com.sparta.mvm.dto.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,11 +31,11 @@ public class Comment extends Timestamped{
         this.post = post;
         this.user = user;
     }
-    public Comment(CommentCreateRequest commentCreateRequest,Post post) {
+    public Comment(CommentRequestDto commentCreateRequest, Post post) {
         this.comments = commentCreateRequest.getComments();
         this.post = post;
     }
-    public Comment(CommentCreateRequest request, Post post, User user) {
+    public Comment(CommentRequestDto request, Post post, User user) {
         this.comments = request.getComments();
         this.post = post;
         this.user = user;

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @NoArgsConstructor
-public class PostResponse {
+public class PostResponseDto {
     private String msg;
     private int statusCode;
     private Long id;
@@ -23,7 +23,7 @@ public class PostResponse {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedAt;
 
-    public PostResponse(String msg, int statusCode, Long Id, String contents, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public PostResponseDto(String msg, int statusCode, Long Id, String contents, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.msg = msg;
         this.statusCode = statusCode;
         this.id = Id;
@@ -32,7 +32,7 @@ public class PostResponse {
         this.modifiedAt = modifiedAt;
     }
 
-    public PostResponse(Post post) {
+    public PostResponseDto(Post post) {
         this.id = post.getId();
         this.contents = post.getContents();
         this.createdAt = post.getCreatedAt();
@@ -40,8 +40,8 @@ public class PostResponse {
     }
 
     // 게시글 조회
-    public static PostResponse toList(String msg, int statusCode, Post post) {
-        return PostResponse.builder()
+    public static PostResponseDto toList(String msg, int statusCode, Post post) {
+        return PostResponseDto.builder()
                 .msg(msg)
                 .statusCode(statusCode)
                 .id(post.getId())
@@ -53,8 +53,8 @@ public class PostResponse {
     }
 
     //게시글 등록, 수정
-    public static PostResponse toDto(String msg, int statusCode, Post post) {
-        return PostResponse.builder()
+    public static PostResponseDto toDto(String msg, int statusCode, Post post) {
+        return PostResponseDto.builder()
                 .msg(msg)
                 .statusCode(statusCode)
                 //   .username(post.getUser().getUsername())
@@ -65,8 +65,8 @@ public class PostResponse {
     }
 
     // 게시글 삭제
-    public static PostResponse toDeleteResponse(String msg, int statusCode) {
-        return PostResponse.builder()
+    public static PostResponseDto toDeleteResponse(String msg, int statusCode) {
+        return PostResponseDto.builder()
                 .msg(msg)
                 .statusCode(statusCode)
                 .build();
