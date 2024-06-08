@@ -18,6 +18,7 @@ public class ProfileService {
     private final ProfileRepository profileRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional(readOnly = true)
     public ProfileResponseDto getProfile(Long userId) {
         User user = getUserById(userId);
         ProfileResponseDto responseDto = new ProfileResponseDto(user);

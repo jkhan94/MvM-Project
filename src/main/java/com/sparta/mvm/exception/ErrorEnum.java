@@ -11,6 +11,9 @@ public enum ErrorEnum {
     // user
     // login
     // post
+    BAD_POSTID(400, "게시글 ID를 찾을 수 없습니다."),
+    // comment
+    BAD_COMMENTID(400,"댓글 ID를 찾을 수 없습니다."),
     // authorization
     NOT_VALID_TOKEN(400,"유효하지 않은 토큰입니다"),
     EXPIRED_REFRESH_TOKEN_VALUE(403,"리프레시 토큰이 만료되었습니다, 재로그인이 필요합니다"),

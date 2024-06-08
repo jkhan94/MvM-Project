@@ -1,8 +1,10 @@
 package com.sparta.mvm.jwt;
 
-import com.sparta.mvm.AuthTest.AuthService;
+// TODO: AuthService 수정된 부분존재, Test 패키지에있는것 가져다 Service에 적용하기!
+//import com.sparta.mvm.AuthTest.AuthService;
 import com.sparta.mvm.AuthTest.TokenType;
 import com.sparta.mvm.security.UserDetailsServiceImpl;
+import com.sparta.mvm.service.AuthService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -36,7 +38,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         String tokenValue = jwtUtil.getAccessTokenFromRequest(req);
         String refreshTokenValue = jwtUtil.getRefreshTokenFromRequest(req);
-        boolean checkError;
+
         if (StringUtils.hasText(tokenValue) && StringUtils.hasText(refreshTokenValue)) {
             // JWT 토큰 substring
             tokenValue = jwtUtil.substringToken(tokenValue);

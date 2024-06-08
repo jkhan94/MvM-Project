@@ -26,11 +26,7 @@ public class ProfileController {
 
         ProfileResponseDto profile = profileService.getProfile(userId);
 
-        return ResponseEntity.ok().body(CommonResponse.builder()
-                .statusCode(HttpStatus.OK.value())
-                .msg("프로필 조회 성공\uD83C\uDF89")
-                .data(profile)
-                .build());
+        return getResponseEntity(HttpStatus.OK.value(), "프로필 조회 성공\uD83C\uDF89", profile);
     }
 
     @PutMapping("/{userId}")
@@ -42,9 +38,14 @@ public class ProfileController {
 
         ProfileResponseDto profile = profileService.updateProfile(userId, requestDto);
 
+        return getResponseEntity(HttpStatus.OK.value(), "프로필 수정 성공\uD83C\uDF89", profile);
+
+    }
+
+    private static ResponseEntity<CommonResponse> getResponseEntity(int statusCode, String msg, ProfileResponseDto profile) {
         return ResponseEntity.ok().body(CommonResponse.builder()
-                .statusCode(HttpStatus.OK.value())
-                .msg("프로필 수정 성공\uD83C\uDF89")
+                .statusCode(statusCode)
+                .msg(msg)
                 .data(profile)
                 .build());
     }

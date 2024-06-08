@@ -13,7 +13,6 @@ import java.util.List;
 @Table(name = "metromusic")
 @NoArgsConstructor
 public class User extends Timestamped {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

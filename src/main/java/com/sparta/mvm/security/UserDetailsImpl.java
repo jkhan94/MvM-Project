@@ -6,13 +6,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class UserDetailsImpl implements UserDetails {
 
     // 테스트용
-    private final TestUser user;
+    private final Optional<TestUser> user;
 
-    public UserDetailsImpl(TestUser user) {
+    public UserDetailsImpl(Optional<TestUser> user) {
         this.user = user;
     }
 
@@ -23,12 +24,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return user.get().getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.get().getUsername();
     }
 
     @Override

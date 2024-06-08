@@ -2,6 +2,7 @@ package com.sparta.mvm.AuthTest;
 
 import com.sparta.mvm.exception.CommonResponse;
 import com.sparta.mvm.security.UserDetailsImpl;
+import com.sparta.mvm.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
