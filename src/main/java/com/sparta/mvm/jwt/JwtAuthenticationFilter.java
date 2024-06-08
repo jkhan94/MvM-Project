@@ -2,7 +2,6 @@ package com.sparta.mvm.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.mvm.dto.LoginRequestDto;
-import com.sparta.mvm.security.UserDetailsImpl;
 import com.sparta.mvm.service.AuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -45,8 +44,18 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        super.successfulAuthentication(request, response, chain, authResult);
+
         authService.login(requestDto, response);
         successLogin(response);
+
+        // 로그아웃 요청 URL 확인
+        String logoutUrl = "/users/logout";
+        if (request.getRequestURI().equals(logoutUrl) && request.getMethod().equals("POST")) {
+            // 로그아웃 요청 시 토큰 초기화
+            authService.invalidateTokens(requestDto.getUsername());
+            successLogout(response);
+        }
     }
 
     @Override
@@ -58,6 +67,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             res.setCharacterEncoding("UTF-8");
             res.getWriter().println("로그인이 성공하였습니다! (토큰/리프레시토큰 생성)");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    // 로그아웃이 성공했을 때 클라이언트에게 전송항 응답을 생성
+    private void successLogout(HttpServletResponse response) {
+        // 클라이언트에게 토큰을 무효화하는 응답을 전달
+        try {
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().println("로그아웃이 성공하였습니다! (토큰 무효화)");
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
