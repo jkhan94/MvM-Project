@@ -23,11 +23,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
-
     @PostMapping("/signup")
     public ResponseEntity<CommonResponse<SignupResponseDto>> signup(@Valid@RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
         // Validation 예외처리
@@ -46,6 +41,14 @@ public class UserController {
                 .statusCode(200)
                 .data(responseDto)
                 .build()); // dto 리턴 가입할 떄 어떤걸 넣을지
+    }
+
+    @GetMapping("/reissue")
+    public ResponseEntity<CommonResponse<Void>> tokenReissuance() {
+        return ResponseEntity.ok().body(CommonResponse.<Void>builder()
+                .statusCode(200)
+                .msg("토큰 재발급 성공")
+                .build());
     }
 
 //    @PutMapping("/resign/{username}")

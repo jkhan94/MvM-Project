@@ -1,6 +1,5 @@
 package com.sparta.mvm.jwt;
 
-import com.sparta.mvm.AuthTest.TokenType;
 import com.sparta.mvm.exception.ErrorEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -105,14 +104,14 @@ public class JwtUtil {
     }
 
     // 토큰 검증
-    public void validToken(String token, TokenType tokenType, HttpServletRequest request) {
+    public void validToken(String token, JwtTokenType jwtTokenType, HttpServletRequest request) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
         } catch (SecurityException | MalformedJwtException | SignatureException e) {
             request.setAttribute("NOT_VALID_TOKEN", ErrorEnum.NOT_VALID_TOKEN);
             throw new RuntimeException("유효하지 않는 토큰 오류");
         } catch (ExpiredJwtException e) {
-            if(tokenType.equals(TokenType.ACCESS_TOKEN)) {
+            if(jwtTokenType.equals(JwtTokenType.ACCESS_TOKEN)) {
                 request.setAttribute("EXPIRED_TOKEN", ErrorEnum.EXPIRED_TOKEN_VALUE);
                 throw new RuntimeException("만료된 토큰 오류");
             }

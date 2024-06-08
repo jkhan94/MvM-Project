@@ -1,6 +1,5 @@
 package com.sparta.mvm.config;
 
-// TODO : Test 패키지 AuthService -> Service패키지에 적용
 import com.sparta.mvm.jwt.JwtAuthenticationFilter;
 import com.sparta.mvm.jwt.JwtAuthorizationFilter;
 import com.sparta.mvm.jwt.JwtAuthenticationEntryPoint;
@@ -42,7 +41,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil, authService);
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(authService);
         filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
         return filter;
     }
@@ -67,13 +66,12 @@ public class SecurityConfig {
                         .requestMatchers("/posts/**").permitAll()
                         .requestMatchers("/comments/**").permitAll()
                         .requestMatchers("/posts/{postId}/comments").permitAll()
-                        .requestMatchers("/user/init").permitAll()
                         .requestMatchers("/profile/**").permitAll()
                         .requestMatchers("/users/signup").permitAll()
                         .anyRequest().authenticated()
         );
         http.exceptionHandling((exception)
-                        ->exception.authenticationEntryPoint(jwtAuthenticationEntryPoint()).accessDeniedPage("/user"));
+                        ->exception.authenticationEntryPoint(jwtAuthenticationEntryPoint()).accessDeniedPage("/"));
         http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

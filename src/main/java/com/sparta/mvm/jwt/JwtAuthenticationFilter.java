@@ -16,12 +16,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.io.IOException;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private final JwtUtil jwtUtil;
     private final AuthService authService;
-
+    private LoginRequestDto requestDto;
     // 로그인 요청 url
-    public JwtAuthenticationFilter(JwtUtil jwtUtil, AuthService authService) {
-        this.jwtUtil = jwtUtil;
+    public JwtAuthenticationFilter(AuthService authService) {
         this.authService = authService;
         setFilterProcessesUrl("/users/login");
     }
@@ -30,7 +28,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
         try {
-            LoginRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDto.class);
+            requestDto = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDto.class);
 
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -47,22 +45,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-
-        String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
-
-        String refreshToken = jwtUtil.createRefreshToken(username);
-        jwtUtil.addRefreshJwtToCookie(refreshToken, response);
-
-        String token = jwtUtil.createAccessToken(username);
-        jwtUtil.addAccessJwtToCookie(token, response);
-
-//        authService.setRefreshToken(username, refreshToken);
-//        authService.setRefreshTokenValid(username, true);
-        authService.saveRefreshToken(username, refreshToken);
+        authService.login(requestDto, response);
+        successLogin(response);
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         response.setStatus(401);
+    }
+
+    private void successLogin(HttpServletResponse res) {
+        try {
+            res.setCharacterEncoding("UTF-8");
+            res.getWriter().println("로그인이 성공하였습니다! (토큰/리프레시토큰 생성)");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 }
