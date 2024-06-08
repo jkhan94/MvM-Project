@@ -1,7 +1,9 @@
 package com.sparta.mvm.AuthTest;
 
 import com.sparta.mvm.config.PasswordConfig;
+import com.sparta.mvm.entity.User;
 import com.sparta.mvm.jwt.JwtUtil;
+import com.sparta.mvm.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,21 +18,21 @@ import java.util.Map;
 public class AuthService {
 
     private final JwtUtil jwtUtil;
-    private final TestUserRepository userRepository;
+    private final UserRepository userRepository;
     private final PasswordConfig passwordConfig;
     private final Map<String, RefreshTokenDto> refreshTokenDtoMap = new HashMap<>();
     
     @Transactional
     public void saveRefreshToken(String username, String refreshToken) {
-        TestUser user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException());
         user.setRefreshToken(refreshToken);
     }
     
     // 액세스 토큰 재발급
     public String tokenReissuance(String refreshToken, HttpServletResponse res) throws IOException {
         String username = jwtUtil.getUserInfoFromToken(refreshToken).getSubject();
-        // TODO : user명이 db에 존재하는지에 따른 예외처리
-        TestUser user = userRepository.findByUsername(username);
+        // TODO : db에 존재하는지 체크
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException());
 
         // 클라이언트(현재로그인중, 리프레쉬토큰 만료x, 토큰만료 상태) 에서 보내온 refresh토큰과 db에 저장된,
         // 현재 로그인중인 username에 해당하는 refresh토큰 비교후 같으면 새로운 토큰발급
@@ -45,12 +47,12 @@ public class AuthService {
         return "";
     }
 
-    public void initTable() {
-        String password = "testPassword";
-        password = passwordConfig.passwordEncoder().encode(password);
-        TestUser user = new TestUser("testUserId", password);
-        userRepository.save(user);
-    }
+//    public void initTable() {
+//        String password = "testPassword";
+//        password = passwordConfig.passwordEncoder().encode(password);
+//        TestUser user = new TestUser("testUserId", password);
+//        userRepository.save(user);
+//    }
     // reFreshDto 값 저장하는 용도
     public void setRefreshToken(String username, String refreshTokenValue) {
         RefreshTokenDto tokenDto = new RefreshTokenDto(refreshTokenValue);

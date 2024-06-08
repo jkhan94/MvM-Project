@@ -30,6 +30,16 @@ public class GlobalExceptionHandler {
                 .build());
     }
 
+    // UserController signup 예외처리 (테스트)
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<CommonResponse> handleValidationExceptions(IllegalArgumentException ex) {
+        return ResponseEntity.ok().body(CommonResponse.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .msg(ex.getMessage())
+                .build());
+    }
+
     // 나머지 에러
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<CommonResponse> handleException(Exception ex) {

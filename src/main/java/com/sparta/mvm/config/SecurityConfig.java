@@ -69,6 +69,7 @@ public class SecurityConfig {
                         .requestMatchers("/posts/{postId}/comments").permitAll()
                         .requestMatchers("/user/init").permitAll()
                         .requestMatchers("/profile/**").permitAll()
+                        .requestMatchers("/users/signup").permitAll()
                         .anyRequest().authenticated()
         );
         http.exceptionHandling((exception)
