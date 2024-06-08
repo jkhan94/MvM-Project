@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class PostCreateRequest {
+public class PostRequestDto {
     @NotBlank(message = "내용을 입력해 주세요")
     private String contents;
 
-    public PostCreateRequest(String contents) {
+    public PostRequestDto(String contents) {
         this.contents = contents;
     }
 

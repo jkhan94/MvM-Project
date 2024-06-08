@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @Builder
-public class CommentResponse {
+public class CommentResponseDto {
     private String msg;
     private int statusCode;
     private Long id;
@@ -23,14 +23,14 @@ public class CommentResponse {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedAt;
 
-    public CommentResponse(String msg, int statusCode, Long id, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public CommentResponseDto(String msg, int statusCode, Long id, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.msg = msg;
         this.statusCode = statusCode;
         this.id = id;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
     }
-    public CommentResponse(Comment comment) {
+    public CommentResponseDto(Comment comment) {
         this.id = comment.getId();
         this.comments = comment.getComments();
         this.createdAt = comment.getCreatedAt();
@@ -38,8 +38,8 @@ public class CommentResponse {
     }
 
     // 댓글 등록
-    public static CommentResponse toDto(String msg, int statusCode, Comment comment) {
-        return CommentResponse.builder()
+    public static CommentResponseDto toDto(String msg, int statusCode, Comment comment) {
+        return CommentResponseDto.builder()
                 .msg(msg)
                 .statusCode(statusCode)
                 .comments(comment.getComments())
@@ -49,16 +49,16 @@ public class CommentResponse {
     }
 
     // 댓글 삭제
-    public static CommentResponse toDeleteResponse(String msg, int statusCode) {
-        return CommentResponse.builder()
+    public static CommentResponseDto toDeleteResponse(String msg, int statusCode) {
+        return CommentResponseDto.builder()
                 .msg(msg)
                 .statusCode(statusCode)
                 .build();
     }
 
     // 댓글 조회
-    public static CommentResponse toList(String msg, int statusCode, Comment comment) {
-        return CommentResponse.builder()
+    public static CommentResponseDto toList(String msg, int statusCode, Comment comment) {
+        return CommentResponseDto.builder()
                 .msg(msg)
                 .statusCode(statusCode)
                 .id(comment.getId())

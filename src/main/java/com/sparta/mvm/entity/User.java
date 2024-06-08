@@ -52,8 +52,8 @@ public class User extends Timestamped {
 
     }*/
 
-    @OneToMany(mappedBy = "user")
-    private List<Post> post;
+  //  @OneToMany(mappedBy = "user")
+   // private List<Post> post;
 
     public void update(ProfileRequestDto requestDto) {
         this.name = requestDto.getName();

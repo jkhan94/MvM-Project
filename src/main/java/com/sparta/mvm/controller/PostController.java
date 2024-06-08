@@ -1,8 +1,7 @@
 package com.sparta.mvm.controller;
 
-import com.sparta.mvm.dto.PostCreateRequest;
-import com.sparta.mvm.dto.PostResponse;
-import com.sparta.mvm.dto.PostUpdateRequest;
+import com.sparta.mvm.dto.PostRequestDto;
+import com.sparta.mvm.dto.PostResponseDto;
 import com.sparta.mvm.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +22,14 @@ public class PostController {
 
     // 게시글 등록
     @PostMapping("/posts")
-    public ResponseEntity<PostResponse> create(@Valid @RequestBody PostCreateRequest request) {
+    public ResponseEntity<PostResponseDto> create(@Valid @RequestBody PostRequestDto request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(request));
     }
 
     // 게시글 전체 조회
     @GetMapping("/posts")
     public ResponseEntity<Map<String, Object>> getAll() {
-        List<PostResponse> newsFeed = service.getAll();
+        List<PostResponseDto> newsFeed = service.getAll();
         if (newsFeed.isEmpty()) {
             // 뉴스피드가 비어있는 경우
             Map<String, Object> response = new HashMap<>();
@@ -45,13 +44,13 @@ public class PostController {
 
     // 게시글 부분 조회
     @GetMapping("/posts/{postId}")
-    public ResponseEntity<PostResponse> findById(@PathVariable(name = "postId") long postId) {
+    public ResponseEntity<PostResponseDto> findById(@PathVariable(name = "postId") long postId) {
         return ResponseEntity.ok().body(service.findById(postId));
     }
 
     // 게시글 수정
     @PutMapping("/posts/{postId}")
-    public ResponseEntity<PostResponse> update(@PathVariable(name = "postId") long postId, @Valid @RequestBody PostUpdateRequest request) {
+    public ResponseEntity<PostResponseDto> update(@PathVariable(name = "postId") long postId, @Valid @RequestBody PostRequestDto request) {
         return ResponseEntity.ok().body(service.update(postId, request));
     }
 

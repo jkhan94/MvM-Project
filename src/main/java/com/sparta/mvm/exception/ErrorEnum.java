@@ -11,6 +11,9 @@ public enum ErrorEnum {
     // user
     // login
     // post
+    BAD_POSTID(400, "게시글 ID를 찾을 수 없습니다."),
+    // comment
+    BAD_COMMENTID(400,"댓글 ID를 찾을 수 없습니다."),
     // authorization
     // profile
     USER_NOT_FOUND(400, "등록되지 않은 사용자입니다."),

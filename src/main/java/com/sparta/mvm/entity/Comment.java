@@ -1,6 +1,6 @@
 package com.sparta.mvm.entity;
 
-import com.sparta.mvm.dto.CommentCreateRequest;
+import com.sparta.mvm.dto.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,24 +21,24 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private User user;
 
 
     public Comment(String comments, Post post, User user) {
         this.comments = comments;
         this.post = post;
-        this.user = user;
+   //     this.user = user;
     }
-    public Comment(CommentCreateRequest commentCreateRequest,Post post) {
+    public Comment(CommentRequestDto commentCreateRequest, Post post) {
         this.comments = commentCreateRequest.getComments();
         this.post = post;
     }
-    public Comment(CommentCreateRequest request, Post post, User user) {
+    public Comment(CommentRequestDto request, Post post, User user) {
         this.comments = request.getComments();
         this.post = post;
-        this.user = user;
+     //   this.user = user;
     }
 
     public Comment(String comments)
