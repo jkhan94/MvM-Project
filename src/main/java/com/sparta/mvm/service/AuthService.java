@@ -35,6 +35,9 @@ public class AuthService {
     // 로그인을 시도할 때 호출.
     // 사용자의 아이디와 비밀번호를 검증하고, 성공적으로 인증 시 JWT 토큰을 생성하여 사용자에게 반환.
     public void login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
+
+        User user = userRepository.findByUsername(loginRequestDto.getUsername())
+                 .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
         // 사용자 검색
         User user = userRepository.findByUsername(loginRequestDto.getUsername()) // 사용자가 입력한 아이디(username)로 데이터베이스에서 해당 사용자를 찾음.
                 .orElseThrow(() -> new IllegalArgumentException("Invalid username or password")); // 만약 사용자가 DB에 없다면, 예외를 던져 로그인 시도가 실패했음을 알림.
