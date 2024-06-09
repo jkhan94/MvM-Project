@@ -17,6 +17,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthService authService;
     private LoginRequestDto requestDto;
+
     // 로그인 요청 url
     public JwtAuthenticationFilter(AuthService authService) {
         this.authService = authService;
@@ -59,7 +60,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // 요청 URL이 로그아웃 URL이고, HTTP 메소드가 POST인 경우에만 실행
         if (request.getRequestURI().equals(logoutUrl) && request.getMethod().equals("POST")) {
             // AuthService를 사용하여 사용자의 토큰을 초기화하여 로그아웃 처리
-            authService.invalidateTokens(requestDto.getUsername());
+            authService.invalidateTokens(requestDto.getUsername(), response);
 
             // 로그아웃이 성공한 경우에는 성공 메시지를 반환
             successLogout(response);
