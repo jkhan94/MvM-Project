@@ -12,8 +12,10 @@ import com.sparta.mvm.dto.LoginRequestDto;
 import com.sparta.mvm.entity.User;
 import com.sparta.mvm.jwt.JwtUtil;
 import com.sparta.mvm.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +39,7 @@ public class AuthService {
     public void login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
 
         User user = userRepository.findByUsername(loginRequestDto.getUsername())
-                 .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
 
         // 비밀번호 검증
         if (!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) { // 사용자가 입력한 비밀번호와 DB에 저장된 비밀번호를 비교.
@@ -57,7 +59,6 @@ public class AuthService {
 
         user.setRefreshToken(refreshToken); // 생성된 리프레시 토큰을 사용자의 DB 레코드에 저장. => 나중에 사용자가 리프레시 토큰을 사용할 때 검증하기 위해 필요.
     }
-
 
 
     // 액세스 토큰 재발급
@@ -81,20 +82,24 @@ public class AuthService {
     }
 
     // 사용자의 토큰을 삭제하여 로그아웃 처리
-    public void invalidateTokens(String username, HttpServletResponse res) {
+    public void invalidateTokens(HttpServletResponse response, HttpServletRequest request) {
         // 사용자 이름으로 사용자를 데이터베이스에서 찾습니다.
+
+        String value = jwtUtil.getAccessTokenFromRequest(request);
+        value = jwtUtil.substringToken(value);
+        String username = jwtUtil.getUserInfoFromToken(value).getSubject();
+
+
         User user = userRepository.findByUsername(username)
                 // 만약 사용자를 찾지 못하면 예외를 던집니다.
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         // 사용자의 리프레시 토큰을 삭제하여 토큰을 무효화합니다.
 
-        jwtUtil.initJwtCookie(res);
+        jwtUtil.initJwtCookie(response);
         user.setRefreshToken(null); // 리프레시 토큰을 null로 설정하여 초기화합니다.
         userRepository.save(user); // 변경된 사용자 정보를 데이터베이스에 저장합니다.
     }
-
-
 
 
 //    // reFreshDto 값 저장하는 용도
