@@ -38,9 +38,6 @@ public class AuthService {
 
         User user = userRepository.findByUsername(loginRequestDto.getUsername())
                  .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
-        // 사용자 검색
-        User user = userRepository.findByUsername(loginRequestDto.getUsername()) // 사용자가 입력한 아이디(username)로 데이터베이스에서 해당 사용자를 찾음.
-                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password")); // 만약 사용자가 DB에 없다면, 예외를 던져 로그인 시도가 실패했음을 알림.
 
         // 비밀번호 검증
         if (!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) { // 사용자가 입력한 비밀번호와 DB에 저장된 비밀번호를 비교.
