@@ -21,12 +21,11 @@ public class CommentController {
     public final CommentService service;
     private final CommentService commentService;
 
-
     // 댓글 등록
-    @PostMapping("{userId}/posts/{postId}/comments")
-    public ResponseEntity<CommentResponseDto> create(@PathVariable Long userId, @PathVariable(name = "postId") long postId, @Valid @RequestBody CommentRequestDto request) {
-        CommentRequestDto comment = commentService.getComment(userId,request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(userId,postId, request));
+    @PostMapping("/posts/{postId}/comments")
+    public ResponseEntity<CommentResponseDto> create(@PathVariable(name = "postId") long postId, @Valid @RequestBody CommentRequestDto request) {
+        CommentResponseDto comment = commentService.save(postId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(comment);
     }
 
     // 댓글 조회

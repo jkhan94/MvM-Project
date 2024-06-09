@@ -11,6 +11,8 @@ import com.sparta.mvm.repository.CommentRepository;
 import com.sparta.mvm.repository.PostRepository;
 import com.sparta.mvm.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,12 +28,6 @@ public class CommentService {
     private final UserRepository userRepository;
 
 
-    public CommentRequestDto getComment(Long userId, CommentRequestDto request) {
-        User user = getUserById(userId);
-        CommentRequestDto commentRequestDto = new CommentRequestDto();
-        return commentRequestDto;
-    }
-
     private User getUserById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorEnum.USER_NOT_FOUND));
     }
@@ -45,8 +41,9 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentResponseDto save(long userId,long postId, CommentRequestDto request) {
-        User user = getUserById(userId);
+    public CommentResponseDto save(long postId, CommentRequestDto request) {
+        Long loggedInUserId = getLoggedInUserId();
+        User user = getUserById(loggedInUserId);
         Post post = findPostById(postId);
         Comment comment = request.toEntity(post);
         comment.setUser(user);
@@ -55,18 +52,27 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentResponseDto update(long commentId, CommentRequestDto  request) {
+    public CommentResponseDto update(long commentId, CommentRequestDto request) {
         Comment comment = findCommentById(commentId);
-        comment.update(request.getComments());
-        return CommentResponseDto.toDto("댓글 수정 성공 🎉",200,comment);
-
+        Long loggedInUserId = getLoggedInUserId();
+        if (loggedInUserId.equals(comment.getUser().getId())) {
+            comment.update(request.getComments());
+            return CommentResponseDto.toDto("댓글 수정 성공 🎉", 200, comment);
+        } else {
+            throw new CustomException(ErrorEnum.BAD_AUTH_PUT);
+        }
     }
 
     @Transactional
     public CommentResponseDto delete(long commentId) {
         Comment comment = findCommentById(commentId);
-        commentRepository.delete(comment);
-        return CommentResponseDto.toDeleteResponse("댓글 삭제 성공 🎉",200);
+        Long loggedInUserId = getLoggedInUserId();
+        if (loggedInUserId.equals(comment.getUser().getId())) {
+            commentRepository.delete(comment);
+            return CommentResponseDto.toDeleteResponse("댓글 삭제 성공 🎉", 200);
+        } else {
+            throw new CustomException(ErrorEnum.BAD_AUTH_DELETE);
+        }
     }
 
     public List<CommentResponseDto> getAll() {
@@ -74,9 +80,15 @@ public class CommentService {
         return list
                 .stream()
                 .sorted(Comparator.comparing(Comment::getCreatedAt).reversed())
-                .map(comment -> CommentResponseDto.toList("댓글 조회 성공 🎉",200,comment))
+                .map(comment -> CommentResponseDto.toDto("댓글 조회 성공 🎉",200,comment))
                 .toList();
     }
 
-
+    private Long getLoggedInUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new CustomException(ErrorEnum.USER_NOT_FOUND));
+        return user.getId();
+    }
 }

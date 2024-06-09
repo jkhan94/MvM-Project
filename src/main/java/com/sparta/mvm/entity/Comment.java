@@ -25,27 +25,6 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-
-    public Comment(String comments, Post post, User user) {
-        this.comments = comments;
-        this.post = post;
-        this.user = user;
-    }
-    public Comment(CommentRequestDto commentCreateRequest, Post post) {
-        this.comments = commentCreateRequest.getComments();
-        this.post = post;
-    }
-    public Comment(CommentRequestDto request, Post post, User user) {
-        this.comments = request.getComments();
-        this.post = post;
-        this.user = user;
-    }
-
-    public Comment(String comments)
-    {
-        this.comments = comments;
-    }
-
     public Comment(String comments, Post post)
     {
         this.comments = comments;

@@ -2,10 +2,7 @@ package com.sparta.mvm.controller;
 
 import com.sparta.mvm.dto.PostRequestDto;
 import com.sparta.mvm.dto.PostResponseDto;
-import com.sparta.mvm.exception.CustomException;
-import com.sparta.mvm.exception.ErrorEnum;
 import com.sparta.mvm.service.PostService;
-import com.sparta.mvm.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,12 +21,11 @@ public class PostController {
     private final PostService postService;
 
     // 게시글 등록
-    @PostMapping("/{userId}/posts")
-    public ResponseEntity<PostResponseDto> create(@PathVariable Long userId, @Valid @RequestBody PostRequestDto request) {
-        PostResponseDto post = postService.getPost(userId, request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(postService.save(userId, request));
+    @PostMapping("/posts")
+    public ResponseEntity<PostResponseDto> create(@Valid @RequestBody PostRequestDto request) {
+        PostResponseDto post = postService.save(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(post);
     }
-
 
     // 게시글 전체 조회
     @GetMapping("/posts")

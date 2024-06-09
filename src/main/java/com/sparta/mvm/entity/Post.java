@@ -20,7 +20,6 @@ public class Post extends Timestamped {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-
     public Post(String contents) {
         this.contents = contents;
     }

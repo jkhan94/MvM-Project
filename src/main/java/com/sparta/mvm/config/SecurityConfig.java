@@ -8,6 +8,7 @@ import com.sparta.mvm.security.UserDetailsServiceImpl;
 import com.sparta.mvm.service.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -62,10 +63,9 @@ public class SecurityConfig {
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
-                        .requestMatchers("/posts").permitAll()
-                        .requestMatchers("/posts/**").permitAll()
-                        .requestMatchers("/comments/**").permitAll()
-                        .requestMatchers("/posts/{postId}/comments").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/posts").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/posts/{postId}").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/comments").permitAll()
                         .requestMatchers("/profile/**").permitAll()
                         .requestMatchers("/users/signup").permitAll()
                         .requestMatchers("/users/logout").permitAll()
