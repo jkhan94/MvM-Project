@@ -2,6 +2,7 @@ package com.sparta.mvm.config;
 
 import com.sparta.mvm.jwt.JwtAuthenticationFilter;
 import com.sparta.mvm.jwt.JwtAuthorizationFilter;
+import com.sparta.mvm.jwt.JwtAuthenticationEntryPoint;
 import com.sparta.mvm.jwt.JwtUtil;
 import com.sparta.mvm.security.UserDetailsServiceImpl;
 import com.sparta.mvm.service.AuthService;
@@ -24,7 +25,8 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final AuthService authService;
 
-    public SecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService, AuthenticationConfiguration authenticationConfiguration, AuthService authService) {
+    public SecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService, AuthenticationConfiguration authenticationConfiguration
+            , AuthService authService) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
         this.authenticationConfiguration = authenticationConfiguration;
@@ -39,7 +41,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil, authService);
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(authService);
         filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
         return filter;
     }
@@ -48,7 +50,10 @@ public class SecurityConfig {
     public JwtAuthorizationFilter jwtAuthorizationFilter() {
         return new JwtAuthorizationFilter(jwtUtil, userDetailsService, authService);
     }
-
+    @Bean
+    public JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint() {
+        return new JwtAuthenticationEntryPoint();
+    }
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -61,12 +66,12 @@ public class SecurityConfig {
                         .requestMatchers("/posts/**").permitAll()
                         .requestMatchers("/comments/**").permitAll()
                         .requestMatchers("/posts/{postId}/comments").permitAll()
-                        .requestMatchers("/user/init").permitAll()
                         .requestMatchers("/profile/**").permitAll()
+                        .requestMatchers("/users/signup").permitAll()
                         .anyRequest().authenticated()
         );
-
-
+        http.exceptionHandling((exception)
+                        ->exception.authenticationEntryPoint(jwtAuthenticationEntryPoint()).accessDeniedPage("/"));
         http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

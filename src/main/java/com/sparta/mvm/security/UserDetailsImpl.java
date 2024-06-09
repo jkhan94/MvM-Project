@@ -1,19 +1,17 @@
 package com.sparta.mvm.security;
 
-import com.sparta.mvm.AuthTest.TestUser;
+import com.sparta.mvm.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 public class UserDetailsImpl implements UserDetails {
 
-    // 테스트용
-    private final Optional<TestUser> user;
+    private final User user;
 
-    public UserDetailsImpl(Optional<TestUser> user) {
+    public UserDetailsImpl(User user) {
         this.user = user;
     }
 
@@ -24,12 +22,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.get().getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.get().getUsername();
+        return user.getUsername();
     }
 
     @Override
