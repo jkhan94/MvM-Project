@@ -3,9 +3,11 @@ package com.sparta.mvm.service;
 import com.sparta.mvm.dto.PostRequestDto;
 import com.sparta.mvm.dto.PostResponseDto;
 import com.sparta.mvm.entity.Post;
+import com.sparta.mvm.entity.User;
 import com.sparta.mvm.exception.CustomException;
 import com.sparta.mvm.exception.ErrorEnum;
 import com.sparta.mvm.repository.PostRepository;
+import com.sparta.mvm.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,15 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class PostService {
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
+
+
+    @Transactional
+    public PostResponseDto getPost(Long userId) {
+        User user = getUserById(userId);
+        PostResponseDto responseDto = new PostResponseDto();
+        return responseDto;
+    }
 
     public PostResponseDto findById(long postId) {
         Post post = findPostById(postId);
@@ -46,7 +57,8 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto update(long postId, PostRequestDto request) {
+    public PostResponseDto update(Long userId, long postId, PostRequestDto request) {
+        User user = getUserById(userId);
         Post post = findPostById(postId);
         post.update(request.getContents());
         return PostResponseDto.toDto("게시글 수정 성공 🎉", 200, post);
@@ -59,4 +71,10 @@ public class PostService {
         postRepository.delete(post);
         return PostResponseDto.toDeleteResponse("게시글 삭제 성공 🎉", 200);
     }
+
+    private User getUserById(Long userId)
+    {
+        return userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorEnum.USER_NOT_FOUND));
+    }
+
 }
