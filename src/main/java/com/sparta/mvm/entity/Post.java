@@ -29,4 +29,8 @@ public class Post extends Timestamped {
         this.contents = contents;
         this.user = user;
     }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

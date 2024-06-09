@@ -55,4 +55,8 @@ public class Comment extends Timestamped{
     public void update(String comments) {
         this.comments = comments;
     }
+
+    public void setUser(User user) {
+        this.user= user;
+    }
 }

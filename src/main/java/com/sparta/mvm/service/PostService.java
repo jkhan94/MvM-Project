@@ -22,9 +22,8 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-
-    @Transactional
-    public PostResponseDto getPost(Long userId) {
+    @Transactional(readOnly = true)
+    public PostResponseDto getPost(Long userId, PostRequestDto request) {
         User user = getUserById(userId);
         PostResponseDto responseDto = new PostResponseDto();
         return responseDto;
@@ -40,11 +39,13 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto save(PostRequestDto request) {
-        Post post = postRepository.save(request.toEntity());
+    public PostResponseDto save(long userId, PostRequestDto request) {
+        User user = getUserById(userId);
+        Post post = request.toEntity();
+        post.setUser(user);
+        post = postRepository.save(post);
         return PostResponseDto.toDto("게시글 등록 성공 🎉", 200, post);
     }
-
 
     @Transactional
     public List<PostResponseDto> getAll() {
@@ -57,13 +58,11 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto update(Long userId, long postId, PostRequestDto request) {
-        User user = getUserById(userId);
+    public PostResponseDto update( long postId, PostRequestDto request) {
         Post post = findPostById(postId);
         post.update(request.getContents());
         return PostResponseDto.toDto("게시글 수정 성공 🎉", 200, post);
     }
-
 
     @Transactional
     public PostResponseDto delete(long postId) {

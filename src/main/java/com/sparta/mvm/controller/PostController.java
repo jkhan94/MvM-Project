@@ -22,15 +22,14 @@ import java.util.Map;
 public class PostController {
 
     private final PostService postService;
-    private final UserService userService;
-
 
     // 게시글 등록
     @PostMapping("/{userId}/posts")
     public ResponseEntity<PostResponseDto> create(@PathVariable Long userId, @Valid @RequestBody PostRequestDto request) {
-        PostResponseDto post = postService.getPost(userId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(postService.save(request));
+        PostResponseDto post = postService.getPost(userId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(postService.save(userId, request));
     }
+
 
     // 게시글 전체 조회
     @GetMapping("/posts")
@@ -55,13 +54,9 @@ public class PostController {
     }
 
     // 게시글 수정
-    @PutMapping("/{userId}/posts/{postId}")
-    public ResponseEntity<PostResponseDto> update(@PathVariable Long userId, @PathVariable(name = "postId") long postId, @Valid @RequestBody PostRequestDto request) {
-        if(userId == null)
-        {
-            throw new CustomException(ErrorEnum.USER_NOT_FOUND);
-        }
-        return ResponseEntity.ok().body(postService.update(userId, postId, request));
+    @PutMapping("/posts/{postId}")
+    public ResponseEntity<PostResponseDto> update(@PathVariable(name = "postId") long postId, @Valid @RequestBody PostRequestDto request) {
+        return ResponseEntity.ok().body(postService.update(postId, request));
     }
 
     //게시글 삭제

@@ -4,10 +4,12 @@ import com.sparta.mvm.dto.CommentRequestDto;
 import com.sparta.mvm.dto.CommentResponseDto;
 import com.sparta.mvm.entity.Comment;
 import com.sparta.mvm.entity.Post;
+import com.sparta.mvm.entity.User;
 import com.sparta.mvm.exception.CustomException;
 import com.sparta.mvm.exception.ErrorEnum;
 import com.sparta.mvm.repository.CommentRepository;
 import com.sparta.mvm.repository.PostRepository;
+import com.sparta.mvm.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +23,18 @@ import java.util.List;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
+
+    public CommentRequestDto getComment(Long userId, CommentRequestDto request) {
+        User user = getUserById(userId);
+        CommentRequestDto commentRequestDto = new CommentRequestDto();
+        return commentRequestDto;
+    }
+
+    private User getUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorEnum.USER_NOT_FOUND));
+    }
 
     private Post findPostById(long postId) {
         return postRepository.findById(postId).orElseThrow(() ->  new CustomException(ErrorEnum.BAD_POSTID));
@@ -31,16 +44,13 @@ public class CommentService {
         return commentRepository.findById(commentId).orElseThrow(()-> new CustomException(ErrorEnum.BAD_COMMENTID));
     }
 
-//    public CommentResponse save(Long postId, CommentCreateRequest request, User user) {
-//        Post post = findPostById(postId);
-//        Comment comment = commentRepository.save(new Comment(request, post, user));
-//        return CommentResponse.toDto("댓글 등록 성공 💌", 200, comment);
-//    }
-
     @Transactional
-    public CommentResponseDto save(long postId, CommentRequestDto request) {
+    public CommentResponseDto save(long userId,long postId, CommentRequestDto request) {
+        User user = getUserById(userId);
         Post post = findPostById(postId);
-        Comment comment = commentRepository.save(request.toEntity(post)); // toEntity 메서드 사용
+        Comment comment = request.toEntity(post);
+        comment.setUser(user);
+        comment = commentRepository.save(comment);
         return CommentResponseDto.toDto("댓글 등록 성공 💌", 200, comment);
     }
 
@@ -67,4 +77,6 @@ public class CommentService {
                 .map(comment -> CommentResponseDto.toList("댓글 조회 성공 🎉",200,comment))
                 .toList();
     }
+
+
 }
