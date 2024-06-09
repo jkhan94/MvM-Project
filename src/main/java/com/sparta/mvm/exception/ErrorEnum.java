@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public enum ErrorEnum {
     // user
+    BAD_RESIGN(400,"이미 탈퇴한 회원입니다."),
     // login
     // post
     BAD_POSTID(400, "게시글 ID를 찾을 수 없습니다."),

@@ -68,4 +68,8 @@ public class User extends Timestamped {
     public void setRefreshToken(String refreshToken){
         this.refreshToken = refreshToken;
     }
+
+    public void resignStatus() {
+        this.userStatus = String.valueOf(UserStatusEnum.USER_RESIGN);
+    }
 }

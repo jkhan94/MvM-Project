@@ -1,15 +1,21 @@
 package com.sparta.mvm.service;
 
+import ch.qos.logback.core.spi.ErrorCodes;
+import com.sparta.mvm.dto.ResignDto;
 import com.sparta.mvm.dto.SignupRequestDto;
 import com.sparta.mvm.dto.SignupResponseDto;
 import com.sparta.mvm.entity.User;
 import com.sparta.mvm.entity.UserStatusEnum;
+import com.sparta.mvm.exception.CustomException;
 import com.sparta.mvm.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
+import static com.sparta.mvm.exception.ErrorEnum.*;
 
 @Service
 @RequiredArgsConstructor
@@ -42,10 +48,22 @@ public class UserService {
         }
 
         // 사용자 등록
-        //
         User user = new User(username, password, name, email, lineIntro, userStatus);
         userRepository.save(user);
 
         return new SignupResponseDto(user);
+    }
+
+    @Transactional
+    public void resign(User user, ResignDto resignDto) {
+
+        if (!passwordEncoder.matches(resignDto.getPassword(), user.getPassword())) {
+            throw new CustomException(BAD_PASSWORD);
+        }
+        if (user.getUserStatus().equals(UserStatusEnum.USER_RESIGN)) {
+            throw new CustomException(BAD_RESIGN);
+        }
+
+        user.resignStatus();
     }
 }
