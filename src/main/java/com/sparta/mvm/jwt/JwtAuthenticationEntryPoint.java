@@ -26,12 +26,28 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             if(exception.equals("NOT_VALID_TOKEN")){
                 ErrorEnum e = (ErrorEnum)request.getAttribute(exception);
                 TestResponse testResponse = new TestResponse(e.getStatusCode(), e.getMsg());
+                response.setStatus(e.getStatusCode());
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(objectMapper.writeValueAsString(testResponse));
             }
             else if(exception.equals("EXPIRED_TOKEN")){
                 ErrorEnum e = (ErrorEnum)request.getAttribute(exception);
                 TestResponse testResponse = new TestResponse(e.getStatusCode(), e.getMsg());
+                response.setStatus(e.getStatusCode());
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(objectMapper.writeValueAsString(testResponse));
+            }
+            else if(exception.equals("USER_NOT_FOUND")){
+                ErrorEnum e = (ErrorEnum)request.getAttribute(exception);
+                TestResponse testResponse = new TestResponse(e.getStatusCode(), e.getMsg());
+                response.setStatus(e.getStatusCode());
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(objectMapper.writeValueAsString(testResponse));
+            }
+            else if(exception.equals("BAD_PASSWORD")){
+                ErrorEnum e = (ErrorEnum)request.getAttribute(exception);
+                TestResponse testResponse = new TestResponse(e.getStatusCode(), e.getMsg());
+                response.setStatus(e.getStatusCode());
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(objectMapper.writeValueAsString(testResponse));
             }
