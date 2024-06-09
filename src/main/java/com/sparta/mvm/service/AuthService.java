@@ -31,8 +31,9 @@ public class AuthService {
     //TokenResponseDto 는 로그인 성공 시 토큰 정보를 담기 위한 클래스
     @Transactional
     public void login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
+
         User user = userRepository.findByUsername(loginRequestDto.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
+                 .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
 
         if (!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Invalid username or password");
