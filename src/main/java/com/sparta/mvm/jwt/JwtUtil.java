@@ -31,7 +31,7 @@ public class JwtUtil {
     // Token 식별자
     public static final String BEARER_PREFIX = "Bearer ";
     // 토큰 만료시간
-    private final long TOKEN_TIME = 1 * 10 * 1000L; // 1000 = 1초
+    private final long TOKEN_TIME = 60 * 30 * 1000L; // 1000 = 1초
     private final long REFRESH_TOKEN_TIME = 60 * 30 * 1000L;
 
     @Value("${jwt.secret.key}") // Base64 Encode 한 SecretKey
@@ -85,6 +85,21 @@ public class JwtUtil {
         }
     }
 
+
+    public void initJwtCookie(HttpServletResponse res) {
+
+        Cookie cookie = new Cookie(REFRESHTOKEN_HEADER, ""); // Name-Value
+        Cookie cookie2 = new Cookie(AUTHORIZATION_HEADER, "");
+        cookie.setPath("/");
+        cookie2.setPath("/");
+
+        // Response 객체에 Cookie 추가
+        res.addCookie(cookie);
+        res.addCookie(cookie2);
+
+    }
+
+
     public void addRefreshJwtToCookie(String token, HttpServletResponse res) {
         addJwtToCookie(token, res, REFRESHTOKEN_HEADER);
     }
@@ -111,11 +126,10 @@ public class JwtUtil {
             request.setAttribute("NOT_VALID_TOKEN", ErrorEnum.NOT_VALID_TOKEN);
             throw new RuntimeException("유효하지 않는 토큰 오류");
         } catch (ExpiredJwtException e) {
-            if(jwtTokenType.equals(JwtTokenType.ACCESS_TOKEN)) {
+            if (jwtTokenType.equals(JwtTokenType.ACCESS_TOKEN)) {
                 request.setAttribute("EXPIRED_TOKEN", ErrorEnum.EXPIRED_TOKEN_VALUE);
                 throw new RuntimeException("만료된 토큰 오류");
-            }
-            else {
+            } else {
                 request.setAttribute("EXPIRED_TOKEN", ErrorEnum.EXPIRED_REFRESH_TOKEN_VALUE);
                 throw new RuntimeException("만료된 리프레시 토큰 오류");
             }
