@@ -1,6 +1,8 @@
 package com.sparta.mvm.entity;
 
 import com.sparta.mvm.dto.ProfileRequestDto;
+import com.sparta.mvm.dto.SignupRequestDto;
+import com.sparta.mvm.dto.SignupResponseDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,8 +37,10 @@ public class User extends Timestamped {
     @Column(name = "LINE_INTRO", length = 255)
     private String lineIntro;
 
-    @Column(name = "USER_STATUS", nullable = false, length = 100)
-    private String userStatus;
+    //@Column(name = "USER_STATUS", nullable = false, length = 100)
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserStatusEnum userStatus;
 
     @Column(name = "REFRESH_TOKEN", length = 255)
     private String refreshToken;
@@ -47,17 +51,26 @@ public class User extends Timestamped {
     @Column(name = "USER_STATUS_TIME", nullable = false)
     private LocalDateTime userStatusTime;
 
-    public User(String username, String password, String name, String email, String lineIntro, String userStatus) {
+    public User(SignupRequestDto signupRequestDto) {
+        this.username = signupRequestDto.getUsername();
+        this.password = signupRequestDto.getPassword();
+        this.name = signupRequestDto.getName();
+        this.email = signupRequestDto.getEmail();
+        this.lineIntro = signupRequestDto.getLineIntro();
+        this.userStatus = UserStatusEnum.USER_NORMAL;
+    }
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> post;
+
+    public User(String username, String password, String name, String email, String lineIntro, UserStatusEnum userStatusEnum) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.email = email;
         this.lineIntro = lineIntro;
-        this.userStatus = userStatus;
+        this.userStatus = UserStatusEnum.USER_NORMAL;
     }
-
-    @OneToMany(mappedBy = "user")
-    private List<Post> post;
 
     public void update(ProfileRequestDto requestDto) {
         this.name = requestDto.getName();
@@ -70,6 +83,6 @@ public class User extends Timestamped {
     }
 
     public void resignStatus() {
-        this.userStatus = String.valueOf(UserStatusEnum.USER_RESIGN);
+        this.userStatus = UserStatusEnum.USER_RESIGN;
     }
 }

@@ -32,7 +32,8 @@ public class UserService {
         String password = passwordEncoder.encode(requestDto.getPassword());
         String name = requestDto.getName();
         String lineIntro = requestDto.getLineIntro();
-        String userStatus = UserStatusEnum.USER_NORMAL.name();
+        //String userStatus = UserStatusEnum.USER_NORMAL.name();
+        UserStatusEnum userStatusEnum = UserStatusEnum.USER_NORMAL;
 
         // 회원 중복 확인
         Optional<User> checkUsername = userRepository.findByUsername(username);
@@ -48,7 +49,7 @@ public class UserService {
         }
 
         // 사용자 등록
-        User user = new User(username, password, name, email, lineIntro, userStatus);
+        User user = new User(username, password, name, email, lineIntro, userStatusEnum);
         userRepository.save(user);
 
         return new SignupResponseDto(user);
@@ -56,14 +57,14 @@ public class UserService {
 
     @Transactional
     public void resign(User user, ResignDto resignDto) {
-
-        if (!passwordEncoder.matches(resignDto.getPassword(), user.getPassword())) {
+        User userRep = userRepository.findByUsername(user.getUsername()).orElseThrow();
+        if (!passwordEncoder.matches(resignDto.getPassword(), userRep.getPassword())) {
             throw new CustomException(BAD_PASSWORD);
         }
-        if (user.getUserStatus().equals(UserStatusEnum.USER_RESIGN)) {
+        if (userRep.getUserStatus().equals(UserStatusEnum.USER_RESIGN)) {
             throw new CustomException(BAD_RESIGN);
         }
 
-        user.resignStatus();
+        userRep.resignStatus();
     }
 }
