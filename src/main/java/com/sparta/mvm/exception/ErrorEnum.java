@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public enum ErrorEnum {
     // user
     BAD_RESIGN(400,"이미 탈퇴한 회원입니다."),
+    BAD_DUPLICATE(400,"중복되거나 탈퇴한 사용자가 존재합니다."),
     // login
     // post
     BAD_POSTID(400, "게시글 ID를 찾을 수 없습니다."),
