@@ -41,7 +41,7 @@ public class UserController {
                 .msg("회원가입 성공")
                 .statusCode(200)
                 .data(responseDto)
-                .build()); // dto 리턴 가입할 떄 어떤걸 넣을지
+                .build());
     }
 
     @GetMapping("/reissue")
