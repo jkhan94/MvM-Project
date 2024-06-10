@@ -16,32 +16,21 @@ public class CommentResponseDto {
     private String msg;
     private int statusCode;
     private Long id;
+    private String username;
     @NotBlank(message = "내용을 입력해 주세요")
     private String comments;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedAt;
-
-    public CommentResponseDto(String msg, int statusCode, Long id, LocalDateTime createdAt, LocalDateTime modifiedAt) {
-        this.msg = msg;
-        this.statusCode = statusCode;
-        this.id = id;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
-    }
-    public CommentResponseDto(Comment comment) {
-        this.id = comment.getId();
-        this.comments = comment.getComments();
-        this.createdAt = comment.getCreatedAt();
-        this.modifiedAt = comment.getModifiedAt();
-    }
-
-    // 댓글 등록
+    
+    // 댓글 등록, 수정, 조회
     public static CommentResponseDto toDto(String msg, int statusCode, Comment comment) {
         return CommentResponseDto.builder()
                 .msg(msg)
                 .statusCode(statusCode)
+                .id(comment.getId())
+                .username(comment.getUser().getUsername())
                 .comments(comment.getComments())
                 .createdAt(comment.getCreatedAt())
                 .modifiedAt(comment.getModifiedAt())
@@ -53,18 +42,6 @@ public class CommentResponseDto {
         return CommentResponseDto.builder()
                 .msg(msg)
                 .statusCode(statusCode)
-                .build();
-    }
-
-    // 댓글 조회
-    public static CommentResponseDto toList(String msg, int statusCode, Comment comment) {
-        return CommentResponseDto.builder()
-                .msg(msg)
-                .statusCode(statusCode)
-                .id(comment.getId())
-                .comments(comment.getComments())
-                .createdAt(comment.getCreatedAt())
-                .modifiedAt(comment.getModifiedAt())
                 .build();
     }
 }
