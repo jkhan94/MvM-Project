@@ -10,6 +10,9 @@ package com.sparta.mvm.service;
 
 import com.sparta.mvm.dto.LoginRequestDto;
 import com.sparta.mvm.entity.User;
+import com.sparta.mvm.entity.UserStatusEnum;
+import com.sparta.mvm.exception.CustomException;
+import com.sparta.mvm.exception.ErrorEnum;
 import com.sparta.mvm.jwt.JwtUtil;
 import com.sparta.mvm.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,7 +39,7 @@ public class AuthService {
 
     // 로그인을 시도할 때 호출.
     // 사용자의 아이디와 비밀번호를 검증하고, 성공적으로 인증 시 JWT 토큰을 생성하여 사용자에게 반환.
-    public void login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
+    public void login(LoginRequestDto loginRequestDto, HttpServletResponse response, HttpServletRequest request) {
 
         User user = userRepository.findByUsername(loginRequestDto.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
@@ -44,6 +47,10 @@ public class AuthService {
         // 비밀번호 검증
         if (!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) { // 사용자가 입력한 비밀번호와 DB에 저장된 비밀번호를 비교.
             // => 비밀번호 일치하지 않을 시 예외를 던져 로그인 시도가 실패함을 문장을 통해서 알림.
+            throw new IllegalArgumentException("Invalid username or password");
+        }
+        if (user.getUserStatus().equals(UserStatusEnum.USER_RESIGN)){
+            request.setAttribute("test", ErrorEnum.BAD_RESIGN);
             throw new IllegalArgumentException("Invalid username or password");
         }
 

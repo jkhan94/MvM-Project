@@ -51,6 +51,13 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(objectMapper.writeValueAsString(testResponse));
             }
+            else if(exception.equals("test")){
+                ErrorEnum e = (ErrorEnum)request.getAttribute(exception);
+                TestResponse testResponse = new TestResponse(e.getStatusCode(), e.getMsg());
+                response.setStatus(e.getStatusCode());
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(objectMapper.writeValueAsString(testResponse));
+            }
         }
     }
 }
