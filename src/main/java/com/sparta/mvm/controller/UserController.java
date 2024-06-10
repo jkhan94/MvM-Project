@@ -3,8 +3,11 @@ package com.sparta.mvm.controller;
 import com.sparta.mvm.dto.SignupRequestDto;
 import com.sparta.mvm.dto.SignupResponseDto;
 import com.sparta.mvm.exception.CommonResponse;
+import com.sparta.mvm.service.AuthService;
 import com.sparta.mvm.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,11 +26,14 @@ public class UserController {
 
     private final UserService userService;
 
+    private final AuthService authService;
+
+
     @PostMapping("/signup")
-    public ResponseEntity<CommonResponse<SignupResponseDto>> signup(@Valid@RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
+    public ResponseEntity<CommonResponse<SignupResponseDto>> signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
         // Validation 예외처리
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-        if(fieldErrors.size() > 0) {
+        if (fieldErrors.size() > 0) {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
                 log.error(fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage());
             }
@@ -50,6 +56,19 @@ public class UserController {
                 .msg("토큰 재발급 성공")
                 .build());
     }
+
+
+    @GetMapping("/logout")
+    public ResponseEntity<CommonResponse<Void>> logout(HttpServletResponse response, HttpServletRequest request) {
+        authService.invalidateTokens(response, request);
+
+        return ResponseEntity.ok().body(CommonResponse.<Void>builder()
+                .statusCode(200)
+                .msg("로그아웃 성공")
+                .build());
+
+    }
+
 
 //    @PutMapping("/resign/{username}")
 //    //jwt 관련해서 refresh토큰 jwt 회원탈퇴
