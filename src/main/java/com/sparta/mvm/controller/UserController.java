@@ -47,8 +47,8 @@ public class UserController {
     @GetMapping("/reissue")
     public ResponseEntity<CommonResponse<Void>> tokenReissuance() {
         return ResponseEntity.ok().body(CommonResponse.<Void>builder()
-                .statusCode(200)
                 .msg("토큰 재발급 성공")
+                .statusCode(200)
                 .build());
     }
 
@@ -58,8 +58,8 @@ public class UserController {
         authService.invalidateTokens(response, request);
 
         return ResponseEntity.ok().body(CommonResponse.<Void>builder()
-                .statusCode(200)
                 .msg("로그아웃 성공")
+                .statusCode(200)
                 .build());
 
     }

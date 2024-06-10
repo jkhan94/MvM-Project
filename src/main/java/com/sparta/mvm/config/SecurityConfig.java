@@ -63,12 +63,8 @@ public class SecurityConfig {
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
-                        .requestMatchers(HttpMethod.GET,"/posts").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/posts/{postId}").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/comments").permitAll()
-                        .requestMatchers("/profile/**").permitAll()
                         .requestMatchers("/users/signup").permitAll()
-                        .requestMatchers("/users/logout").permitAll()
+                        .requestMatchers("/users/login").permitAll()
                         .anyRequest().authenticated()
         );
         http.exceptionHandling((exception)
