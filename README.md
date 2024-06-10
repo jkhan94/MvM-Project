@@ -1,4 +1,4 @@
-# ✌🏻 MvM Project
+# ✌🏻 MvM
 
 해당 서버는 **Retro Music 을 넘어 Metro Music 🎵 을 공유, 추천하는 뉴스피드 프로그램**입니다.<br/>
 <br>
@@ -14,7 +14,7 @@
 
 <br>
 
-## 👨‍👦‍👦👩‍👧 Team 
+# 👨‍👦‍👦👩‍👧 Team 💖
 
 <table>
   <tbody>
@@ -79,7 +79,7 @@
 
 <br>
 
-## 🗳 Tech Stack
+# 🗳 Tech Stack
 
 | Type       | Tech                                                                                                              | Version                                                                                                           |
 | ---------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
@@ -92,72 +92,100 @@
 
 <br>
 
-## 🌠 Features
-- 학생 관리 및 점수 관리 기능이 있습니다.
-- 프로그램에는 필수 과목과 선택 과목이 존재합니다.
+# 🌠 Features
+
+- 사용자 인증을 할 수 있습니다.
+  - 회원가입, 회원탈퇴, 로그인, 로그아웃
   
-- 필수 과목
-    - 1.Java 2.객체지향 3.Spring 4.JPA 5.MySQL
+  - Spring Security와 JWT를 사용하여 회원 가입과 로그인을 진행합니다.
+  	- 회원 가입 : 신규 가입자는 사용자 ID, 비밀번호를 입력하여 서비스에 가입할 수 있습니다.
+     
+  	- 회원 탈퇴 : 사용자의 비밀번호를 확인하여 탈퇴할 수 있습니다.
+ 	 - 로그인 : 사용자는 자신의 계정으로 로그인 할 수 있습니다.
+  	- 로그아웃 : 사용자는 로그인 되어 있는 본인의 계정을 로그아웃 할 수 있습니다.
+ 
+- 프로필을 관리할 수 있습니다.
+  - 프로필 조회, 프로필 수정
+    
+ 	 - 프로필 조회 : 프로필을 조회하여 사용자 ID, 이름, 한 줄 소개, 이메일을 볼 수 있습니다.
+     
+ 	 - 프로필 수정 : 로그인한 사용자는 본인의 정보를 수정할 수 있습니다.
 
-- 선택 과목
-    - 1.디자인 패턴 2.Spring Security 3.Redis 4.MongoDB
+- 뉴스피드 게시물을 괸리할 수 있습니다.
+  - 게시물 CRUD 기능
   
-- 점수에 따라 등급이 매겨집니다.
-	- 필수 과목 A : 95 ~ 100, B : 90 ~ 94, C : 80 ~ 89, D : 70 ~ 79, F : 60 ~ 69, N : 60점 미만
-	- 선택 과목 A : 90 ~ 100, B : 80 ~ 89, C : 70 ~ 79, D : 60 ~ 69, F : 50 ~ 59, N : 50점 미만
-
-**1. 학생 관리**
- - 학생을 등록(이름, 상태, 과목 목록)할 수 있습니다.
- - 학생을 조회(전체 학생 조회, 상태별 학생 조회)할 수 있습니다.
- - 학생을 수정(이름, 상태)할 수 있습니다.
- -  학생을 삭제(전체 데이터)할 수 있습니다.
-
-**2. 점수 관리**
- - 학생이 수강중인 과목에 대해 점수를 등록할 수 있습니다.
- - 학생이 수강중인 과목에 대해 특정 회차의 점수를 수정할 수 있습니다.
- - 학생이 수강중인 과목에 대해 점수를 조회(과목 단일 조회, 평균 등급 일괄 조회)할 수 있습니다.
-
+ 	 - 모든 사용자는 게시글을 조회할 수 있고 인가된 사용자는 게시글을 작성, 수정, 삭제할 수 있습니다.
+     
+ 	 - 게시글의 등록, 수정, 삭제는 본인만 가능합니다.
+ 
+- 게시글의 댓글을 관리할 수 있습니다.
+  - 댓글 CRUD 기능
+  
+ 	 - 사용자는 게시글에 댓글을 작성할 수 있고 본인의 댓글만 수정 및 삭제가 가능합니다.
+ 
+- 사용자는 게시글 및 댓글에 좋아요를 남기거나 취소할 수 있습니다.
 
 <br>
 
-## 🧩 와이어프레임
+</div>
+</details>
+
+# 📑 Technical Documentation
+
+<details>
+<summary>🧩 와이어프레임</summary>
+<div markdown="1">
+  
 
 ![image](https://github.com/LeeNaYoung240/MvM-Project/assets/107848521/55c7c6aa-7d67-4bb3-a028-959541489ce2)
 ![image](https://github.com/LeeNaYoung240/MvM-Project/assets/107848521/03ba3272-d49e-4248-aa86-75d55575d007)
 
-<br>
 
-## 🧬 ERD DIAGRAM
+
+</div>
+</details>
+
+</div>
+</details>
+
+<details>
+<summary>🧬 ERD DIAGRAM</summary>
+<div markdown="1">
+  
 
 ![Untitled (2)](https://github.com/LeeNaYoung240/MvM-Project/assets/107848521/e7c3c95a-2fad-4464-8de2-d07c3f07aaeb)
 
 
-<br>
+</div>
+</details>
 
-## 🔨 API 명세서
+
+<details>
+<summary> 🔨 API 명세서</summary>
+<div markdown="1">
+  
 
 ![image](https://github.com/LeeNaYoung240/MvM-Project/assets/107848521/8086a605-3608-4f10-885a-2af78dbe1d3d)
 ![image](https://github.com/LeeNaYoung240/MvM-Project/assets/107848521/90171df8-ba73-4e44-aa8c-c98baf85a710)
 ![image](https://github.com/LeeNaYoung240/MvM-Project/assets/107848521/ca17ac83-848c-4415-bff1-339fabb27a90)
 ![image](https://github.com/LeeNaYoung240/MvM-Project/assets/107848521/a4435795-ea49-4f4f-9658-4fe64761a090)
 
-<br>
+</div>
+</details>
 
-## 🥨 Code Convention
 
-|   종류    |   설명       | 표기법       |
-| ---------- | ---------- | ---------- |
-|  변수      | 영문/숫자만을 사용해야 하고 카멜 표기법을 따라야 함. |  camel case       |
-|    상수    |   단어 간 구분을 위해 언더스코어(_)를 사용해야 함. 또한 대문자로만 표기해야 함.         |  scream snake case    |
-|   패키지  |   패키지 이름은 소문자로만 구성되어야 함. 언더스코어(_)의 사용도 금지됨.                |   small letter            |
-| 클래스 | 식별자 첫 단어는 대문자로 지정되고 서로 상이한 단어들을 구분 짓기 위해서 각단어의 시작을 대문자로 작성      |  upper camel case    |
-| 메서드  | 이름은 동사로 시작해야함. 조회 메서드에는 where 절에 들어갈 파라미터명을 By 뒤에 써주면 가독성이 올라감.      |lower camel case     |
-| boolean  |  앞에 is를 붙이고 파스칼 케이스를 적용함.     | 예시) isTrue    |
-| interface  |       | upper camel case    |
 
 <br>
 
-## 🙌🏻 Git Rules
+
+
+</div>
+</details>
+
+<details>
+<summary>🙌🏻 Git Rules</summary>
+<div markdown="1">
+  
 
 ![image](https://github.com/LeeNaYoung240/MvM-Project/assets/107848521/fffe7591-28e3-4211-822a-e87b5e0fc372)
 
@@ -193,97 +221,40 @@
 |🔥 del  |    기능/파일을 삭제      |
 |🔨script  |    	package.json 변경(npm 설치 등)      |
 
+
+
+</div>
+</details>
+
+<details>
+<summary>🥨 Code Convention</summary>
+<div markdown="1">
+  
+|   종류    |   설명       | 표기법       |
+| ---------- | ---------- | ---------- |
+|  변수      | 영문/숫자만을 사용해야 하고 카멜 표기법을 따라야 함. |  camel case       |
+|    상수    |   단어 간 구분을 위해 언더스코어(_)를 사용해야 함. 또한 대문자로만 표기해야 함.         |  scream snake case    |
+|   패키지  |   패키지 이름은 소문자로만 구성되어야 함. 언더스코어(_)의 사용도 금지됨.                |   small letter            |
+| 클래스 | 식별자 첫 단어는 대문자로 지정되고 서로 상이한 단어들을 구분 짓기 위해서 각단어의 시작을 대문자로 작성      |  upper camel case    |
+| 메서드  | 이름은 동사로 시작해야함. 조회 메서드에는 where 절에 들어갈 파라미터명을 By 뒤에 써주면 가독성이 올라감.      |lower camel case     |
+| boolean  |  앞에 is를 붙이고 파스칼 케이스를 적용함.     | 예시) isTrue    |
+| interface  |       | upper camel case    |
+
+
+</div>
+</details>
+
+
 <br>
 
-## 추가
+# 🔦 추가
 
-## 📸 video
-<details>
-<summary>Intro</summary>
-<div markdown="1">
-  
-https://github.com/LeeNaYoung240/student_management_project/assets/107848521/e9387dcd-0094-4022-aae4-fd5cf2f97b65
+[![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white)](https://teamsparta.notion.site/7-c0c2778e462a4bf297c1d11fb965c180)
 
-</div>
-</details>
+<br>
 
-<details>
-<summary>학생 관리 - 학생 등록</summary>
-<div markdown="1">
-  
-https://github.com/LeeNaYoung240/student_management_project/assets/107848521/f195f688-94b3-4761-86a6-4244758f6162
+# 📸 video
 
-</div>
-</details>
-
-<details>
-<summary>학생 관리 - 학생 조회</summary>
-<div markdown="1">
-  
-https://github.com/LeeNaYoung240/student_management_project/assets/107848521/fd98b172-366d-4b64-87da-eb49f108f9f2
-
-</div>
-</details>
-
-<details>
-<summary>학생 관리 - 학생 수정</summary>
-<div markdown="1">
-  
-https://github.com/LeeNaYoung240/student_management_project/assets/107848521/46af0f01-893c-4296-a0d7-d962f86491a5
-
-</div>
-</details>
-
-</div>
-</details>
-
-<details>
-<summary>학생 관리 - 학생 삭제</summary>
-<div markdown="1">
-  
-https://github.com/LeeNaYoung240/student_management_project/assets/107848521/2166fe62-fa55-4424-87a0-628927504d21
-
-</div>
-</details>
-
-</div>
-</details>
-
-<details>
-<summary>점수 관리 -  수강중인 과목에 대해 점수를 등록</summary>
-<div markdown="1">
-  
-https://github.com/LeeNaYoung240/student_management_project/assets/107848521/a31078b6-1967-4905-aeb9-d9ad944e5e87
-
-
-</div>
-</details>
-
-</div>
-</details>
-
-<details>
-<summary>점수 관리 -  수강중인 과목에 대해 점수를 수정</summary>
-<div markdown="1">
-  
-https://github.com/LeeNaYoung240/student_management_project/assets/107848521/32abf349-13e4-4ba6-8cf6-e01dcac87f3a
-
-</div>
-</details>
-
-</div>
-</details>
-
-<details>
-<summary>점수 관리 -  점수 조회, 평균 점수 조회</summary>
-<div markdown="1">
-  
-
-https://github.com/LeeNaYoung240/student_management_project/assets/107848521/6e76b01a-5488-4398-9e4c-d23cc189cf65
-
-
-</div>
-</details>
 
 
 
