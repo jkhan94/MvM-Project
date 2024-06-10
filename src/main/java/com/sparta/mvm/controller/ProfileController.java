@@ -17,7 +17,7 @@ import static com.sparta.mvm.exception.ErrorEnum.USER_NOT_FOUND;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/profile")
+@RequestMapping("/profiles")
 public class ProfileController {
     private final ProfileService profileService;
 

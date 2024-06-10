@@ -16,11 +16,9 @@ public class Post extends Timestamped {
     @Column(name = "CONTENTS", nullable = false)
     private String contents;
 
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
 
     public Post(String contents) {
         this.contents = contents;
@@ -28,6 +26,10 @@ public class Post extends Timestamped {
 
     public void update(String contents) {
         this.contents = contents;
+        this.user = user;
+    }
+
+    public void setUser(User user) {
         this.user = user;
     }
 }

@@ -14,6 +14,8 @@ public enum ErrorEnum {
     // login
     // post
     BAD_POSTID(400, "게시글 ID를 찾을 수 없습니다."),
+    BAD_AUTH_PUT(400,"작성자만 수정할 수 있습니다."),
+    BAD_AUTH_DELETE(400,"작성자만 삭제할 수 있습니다."),
     // comment
     BAD_COMMENTID(400,"댓글 ID를 찾을 수 없습니다."),
     // authorization

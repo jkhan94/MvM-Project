@@ -19,17 +19,13 @@ import java.util.Map;
 public class CommentController {
 
     public final CommentService service;
-
-    // 댓글 등록
-//    @PostMapping("/posts/{postId}/comments")
-//    public ResponseEntity<CommentResponse> create(@PathVariable long postId, @Valid @RequestBody CommentCreateRequest request, @AuthenticationPrincipal User user) {
-//        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(postId, request, user));
-//    }
+    private final CommentService commentService;
 
     // 댓글 등록
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<CommentResponseDto> create(@PathVariable(name = "postId") long postId, @Valid @RequestBody CommentRequestDto request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(postId, request));
+        CommentResponseDto comment = commentService.save(postId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(comment);
     }
 
     // 댓글 조회

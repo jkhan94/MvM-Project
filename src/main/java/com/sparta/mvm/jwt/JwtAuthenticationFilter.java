@@ -2,12 +2,14 @@ package com.sparta.mvm.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.mvm.dto.LoginRequestDto;
-import com.sparta.mvm.security.UserDetailsImpl;
+import com.sparta.mvm.exception.ErrorEnum;
 import com.sparta.mvm.service.AuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -17,7 +19,9 @@ import java.io.IOException;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthService authService;
-    private LoginRequestDto requestDto;
+
+    private LoginRequestDto loginRequestDto;
+
     // 로그인 요청 url
     public JwtAuthenticationFilter(AuthService authService) {
         this.authService = authService;
@@ -28,29 +32,38 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
         try {
-            requestDto = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDto.class);
+            loginRequestDto = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDto.class);
 
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            requestDto.getUsername(),
-                            requestDto.getPassword(),
+                            loginRequestDto.getUsername(),
+                            loginRequestDto.getPassword(),
                             null
                     )
             );
         } catch (IOException e) {
-
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        authService.login(requestDto, response);
+
+        authService.login(loginRequestDto, response);
         successLogin(response);
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        if(failed instanceof InternalAuthenticationServiceException) {
+            request.setAttribute("USER_NOT_FOUND", ErrorEnum.USER_NOT_FOUND);
+            throw new IllegalArgumentException();
+        }
+        else if(failed instanceof BadCredentialsException) {
+            request.setAttribute("BAD_PASSWORD", ErrorEnum.BAD_PASSWORD);
+            throw new IllegalArgumentException();
+        }
+
         response.setStatus(401);
     }
 
