@@ -37,7 +37,6 @@ public class User extends Timestamped {
     @Column(name = "LINE_INTRO", length = 255)
     private String lineIntro;
 
-    //@Column(name = "USER_STATUS", nullable = false, length = 100)
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserStatusEnum userStatus;

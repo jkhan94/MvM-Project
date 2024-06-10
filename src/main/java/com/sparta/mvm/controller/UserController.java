@@ -1,8 +1,10 @@
 package com.sparta.mvm.controller;
 
+import com.sparta.mvm.dto.ResignDto;
 import com.sparta.mvm.dto.SignupRequestDto;
 import com.sparta.mvm.dto.SignupResponseDto;
 import com.sparta.mvm.exception.CommonResponse;
+import com.sparta.mvm.security.UserDetailsImpl;
 import com.sparta.mvm.service.AuthService;
 import com.sparta.mvm.service.UserService;
 
@@ -12,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -30,15 +33,7 @@ public class UserController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<CommonResponse<SignupResponseDto>> signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
-        // Validation 예외처리
-        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-        if (fieldErrors.size() > 0) {
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                log.error(fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage());
-            }
-            throw new IllegalArgumentException("회원 가입 실패");
-        }
+    public ResponseEntity<CommonResponse<SignupResponseDto>> signup(@Valid @RequestBody SignupRequestDto requestDto) {
 
         SignupResponseDto responseDto = userService.signup(requestDto);
 
@@ -46,14 +41,14 @@ public class UserController {
                 .msg("회원가입 성공")
                 .statusCode(200)
                 .data(responseDto)
-                .build()); // dto 리턴 가입할 떄 어떤걸 넣을지
+                .build());
     }
 
     @GetMapping("/reissue")
     public ResponseEntity<CommonResponse<Void>> tokenReissuance() {
         return ResponseEntity.ok().body(CommonResponse.<Void>builder()
-                .statusCode(200)
                 .msg("토큰 재발급 성공")
+                .statusCode(200)
                 .build());
     }
 
@@ -63,15 +58,17 @@ public class UserController {
         authService.invalidateTokens(response, request);
 
         return ResponseEntity.ok().body(CommonResponse.<Void>builder()
-                .statusCode(200)
                 .msg("로그아웃 성공")
+                .statusCode(200)
                 .build());
 
     }
 
 
-//    @PutMapping("/resign/{username}")
-//    //jwt 관련해서 refresh토큰 jwt 회원탈퇴
-//    public
-//    }
+    @PutMapping("/resign")
+    public ResponseEntity<String> resign(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody ResignDto resignDto){
+
+        userService.resign(userDetails.getUser(), resignDto);
+        return ResponseEntity.ok("회원 탈퇴 완료");
+    }
 }
