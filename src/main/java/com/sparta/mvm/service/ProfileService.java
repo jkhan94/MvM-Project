@@ -46,7 +46,7 @@ public class ProfileService {
                 throw new CustomException(BAD_PASSWORD);
             }
             requestDto.setChangedPassword(passwordEncoder.encode(requestDto.getChangedPassword()));
-        } else { //비번을 바꾸지 않을 경우, 바꿀 비번을 현재 비번으로 설정
+        } else { //비밀번호를 바꾸지 않을 경우, 바꿀 비밀번호를 현재 비밀번호로 설정
             requestDto.setChangedPassword(user.getPassword());
         }
 

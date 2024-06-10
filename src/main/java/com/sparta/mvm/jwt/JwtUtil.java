@@ -23,18 +23,16 @@ import java.util.Date;
 @Component
 public class JwtUtil {
     // Header KEY 값
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String REFRESHTOKEN_HEADER = "RefreshToken";
+    public static final String ACCESS_TOKEN_HEADER = "AccessToken";
+    public static final String REFRESH_TOKEN_HEADER = "RefreshToken";
 
-    // 사용자 권한 값의 KEY
-    //public static final String AUTHORIZATION_KEY = "auth";
-    // Token 식별자
     public static final String BEARER_PREFIX = "Bearer ";
     // 토큰 만료시간
     private final long TOKEN_TIME = 60 * 30 * 1000L; // 1000 = 1초
     private final long REFRESH_TOKEN_TIME = 60 * 60 * 24 * 14 * 1000L;
 
-    @Value("${jwt.secret.key}") // Base64 Encode 한 SecretKey
+    // Base64 Encode 한 SecretKey
+    @Value("${jwt.secret.key}")
     private String secretKey;
     private Key key;
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -55,7 +53,6 @@ public class JwtUtil {
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(username) // 사용자 식별자값(ID)
-                        //.claim(AUTHORIZATION_KEY, role) // 사용자 권한
                         .setExpiration(new Date(date.getTime() + setExpirationTime)) // 만료 시간
                         .setIssuedAt(date) // 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
@@ -88,8 +85,8 @@ public class JwtUtil {
 
     public void initJwtCookie(HttpServletResponse res) {
 
-        Cookie cookie = new Cookie(REFRESHTOKEN_HEADER, ""); // Name-Value
-        Cookie cookie2 = new Cookie(AUTHORIZATION_HEADER, "");
+        Cookie cookie = new Cookie(REFRESH_TOKEN_HEADER, ""); // Name-Value
+        Cookie cookie2 = new Cookie(ACCESS_TOKEN_HEADER, "");
         cookie.setPath("/");
         cookie2.setPath("/");
 
@@ -101,11 +98,11 @@ public class JwtUtil {
 
 
     public void addRefreshJwtToCookie(String token, HttpServletResponse res) {
-        addJwtToCookie(token, res, REFRESHTOKEN_HEADER);
+        addJwtToCookie(token, res, REFRESH_TOKEN_HEADER);
     }
 
     public void addAccessJwtToCookie(String token, HttpServletResponse res) {
-        addJwtToCookie(token, res, AUTHORIZATION_HEADER);
+        addJwtToCookie(token, res, ACCESS_TOKEN_HEADER);
     }
 
 
@@ -163,10 +160,10 @@ public class JwtUtil {
     }
 
     public String getAccessTokenFromRequest(HttpServletRequest req) {
-        return getTokenFromRequest(req, AUTHORIZATION_HEADER);
+        return getTokenFromRequest(req, ACCESS_TOKEN_HEADER);
     }
 
     public String getRefreshTokenFromRequest(HttpServletRequest req) {
-        return getTokenFromRequest(req, REFRESHTOKEN_HEADER);
+        return getTokenFromRequest(req, REFRESH_TOKEN_HEADER);
     }
 }
