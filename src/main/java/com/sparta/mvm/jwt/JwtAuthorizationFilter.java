@@ -1,5 +1,6 @@
 package com.sparta.mvm.jwt;
 
+import com.sparta.mvm.exception.ErrorEnum;
 import com.sparta.mvm.security.UserDetailsServiceImpl;
 import com.sparta.mvm.service.AuthService;
 import io.jsonwebtoken.Claims;
@@ -36,28 +37,24 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         String tokenValue = jwtUtil.getAccessTokenFromRequest(req);
         String refreshTokenValue = jwtUtil.getRefreshTokenFromRequest(req);
 
-        if (StringUtils.hasText(tokenValue) && StringUtils.hasText(refreshTokenValue)) {
-            // JWT 토큰 substring
+
+        if(!(req.getRequestURI().equals("/users/login") || req.getRequestURI().equals("/users/signup"))) {
+            if (!(StringUtils.hasText(tokenValue) && StringUtils.hasText(refreshTokenValue))) {
+                req.setAttribute("NOT_VALID_TOKEN", ErrorEnum.NOT_VALID_TOKEN);
+                throw new IllegalArgumentException();
+            }
             tokenValue = jwtUtil.substringToken(tokenValue);
             refreshTokenValue = jwtUtil.substringToken(refreshTokenValue);
-
-            // 재발급 요청, 로그인 요청시 검증 X  +재발급 요청의 경우 토큰 재발급 메서드 실행
-            // 실제 고려해야할 경우인지는 모르겠지만 테스트 과정중에선 토큰을 담은 쿠키가 존재할때 회원가입 요청시 여기서 토큰 검증해버림
-            // 회원가입시 토큰검증 방지
-            if(req.getRequestURI().equals("/users/login") || req.getRequestURI().equals("/users/signup")) {
+            if (req.getRequestURI().equals("/users/reissue")) {
+                jwtUtil.validToken(refreshTokenValue, JwtTokenType.REFRESH_TOKEN, req);
+                tokenValue = authService.tokenReissuance(refreshTokenValue, res);
+                tokenValue = jwtUtil.substringToken(tokenValue);
+            } else {
+                jwtUtil.validToken(refreshTokenValue, JwtTokenType.REFRESH_TOKEN, req);
+                jwtUtil.validToken(tokenValue, JwtTokenType.ACCESS_TOKEN, req);
             }
-            else {
-                if (req.getRequestURI().equals("/users/reissue")) {
-                    jwtUtil.validToken(refreshTokenValue, JwtTokenType.REFRESH_TOKEN, req);
-                    tokenValue = authService.tokenReissuance(refreshTokenValue, res);
-                    tokenValue = jwtUtil.substringToken(tokenValue);
-                } else {
-                    jwtUtil.validToken(refreshTokenValue, JwtTokenType.REFRESH_TOKEN, req);
-                    jwtUtil.validToken(tokenValue, JwtTokenType.ACCESS_TOKEN, req);
-                }
-                Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
-                setAuthentication(info.getSubject());
-            }
+            Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
+            setAuthentication(info.getSubject());
         }
         filterChain.doFilter(req, res);
     }
