@@ -1,6 +1,5 @@
 package com.sparta.mvm.entity;
 
-import com.sparta.mvm.dto.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,12 +8,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "comments")
 @NoArgsConstructor
-public class Comment extends Timestamped{
+public class Comment extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "COMMENTS",nullable = false)
+    @Column(name = "COMMENTS", nullable = false)
     private String comments;
 
     @ManyToOne
@@ -25,8 +24,7 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Comment(String comments, Post post)
-    {
+    public Comment(String comments, Post post) {
         this.comments = comments;
         this.post = post;
     }
@@ -36,6 +34,6 @@ public class Comment extends Timestamped{
     }
 
     public void setUser(User user) {
-        this.user= user;
+        this.user = user;
     }
 }

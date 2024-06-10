@@ -35,7 +35,7 @@ public class AuthService {
             throw new IllegalArgumentException("Invalid username or password");
         }
         // 사용자 상태 검증
-        if (user.getUserStatus().equals(UserStatusEnum.USER_RESIGN)){
+        if (user.getUserStatus().equals(UserStatusEnum.USER_RESIGN)) {
             request.setAttribute("test", ErrorEnum.BAD_RESIGN);
             throw new IllegalArgumentException("Invalid username or password");
         }

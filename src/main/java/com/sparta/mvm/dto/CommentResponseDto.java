@@ -23,7 +23,7 @@ public class CommentResponseDto {
     private LocalDateTime createdAt;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedAt;
-    
+
     // 댓글 등록, 수정, 조회
     public static CommentResponseDto toDto(String msg, int statusCode, Comment comment) {
         return CommentResponseDto.builder()

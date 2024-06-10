@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @PutMapping("/resign")
-    public ResponseEntity <CommonResponse<ResignDto>> resign(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody ResignDto resignDto){
+    public ResponseEntity<CommonResponse<ResignDto>> resign(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody ResignDto resignDto) {
 
         userService.resign(userDetails.getUser(), resignDto);
         return ResponseEntity.ok().body(CommonResponse.<ResignDto>builder()

@@ -11,7 +11,6 @@ import com.sparta.mvm.repository.CommentRepository;
 import com.sparta.mvm.repository.LikeRepository;
 import com.sparta.mvm.repository.PostRepository;
 import com.sparta.mvm.repository.UserRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

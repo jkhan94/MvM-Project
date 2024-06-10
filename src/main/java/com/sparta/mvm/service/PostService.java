@@ -23,7 +23,7 @@ import java.util.List;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-    
+
     public PostResponseDto findById(long postId) {
         Post post = findPostById(postId);
         return PostResponseDto.toDto("게시글 조회 성공 🎉", 200, post);
@@ -77,8 +77,7 @@ public class PostService {
         }
     }
 
-    private User getUserById(Long userId)
-    {
+    private User getUserById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorEnum.USER_NOT_FOUND));
     }
 

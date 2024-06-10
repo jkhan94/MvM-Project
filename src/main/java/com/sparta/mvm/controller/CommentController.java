@@ -30,16 +30,14 @@ public class CommentController {
 
     // 댓글 조회
     @GetMapping("/comments")
-    public ResponseEntity<Map<String,Object>> getAll(){
+    public ResponseEntity<Map<String, Object>> getAll() {
         List<CommentResponseDto> newFeed_Comment = service.getAll();
-        if(newFeed_Comment.isEmpty())
-        {
-            Map<String,Object> response = new HashMap<>();
+        if (newFeed_Comment.isEmpty()) {
+            Map<String, Object> response = new HashMap<>();
             response.put("statusCode", HttpStatus.OK.value());
             response.put("msg", "먼저 댓글을 작성해 보세요 📝");
             return ResponseEntity.ok().body(response);
-        }
-        else{
+        } else {
             return ResponseEntity.ok().body(Collections.singletonMap("newFeed_Comment", newFeed_Comment));
         }
     }
@@ -47,7 +45,7 @@ public class CommentController {
     // 댓글 수정
     @PutMapping("/comments/{commentId}")
     public ResponseEntity<CommentResponseDto> update(@PathVariable(name = "commentId") long commentId, @Valid @RequestBody CommentRequestDto request) {
-        return ResponseEntity.ok().body(service.update(commentId,request));
+        return ResponseEntity.ok().body(service.update(commentId, request));
     }
 
     // 댓글 삭제

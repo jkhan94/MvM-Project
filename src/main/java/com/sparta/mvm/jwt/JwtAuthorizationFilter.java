@@ -38,7 +38,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         String refreshTokenValue = jwtUtil.getRefreshTokenFromRequest(req);
 
 
-        if(!(req.getRequestURI().equals("/users/login") || req.getRequestURI().equals("/users/signup"))) {
+        if (!(req.getRequestURI().equals("/users/login") || req.getRequestURI().equals("/users/signup"))) {
             if (!(StringUtils.hasText(tokenValue) && StringUtils.hasText(refreshTokenValue))) {
                 req.setAttribute("NOT_VALID_TOKEN", ErrorEnum.NOT_VALID_TOKEN);
                 throw new IllegalArgumentException();

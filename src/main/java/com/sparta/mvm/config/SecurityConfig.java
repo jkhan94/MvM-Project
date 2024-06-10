@@ -50,6 +50,7 @@ public class SecurityConfig {
     public JwtAuthorizationFilter jwtAuthorizationFilter() {
         return new JwtAuthorizationFilter(jwtUtil, userDetailsService, authService);
     }
+
     @Bean
     public JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint() {
         return new JwtAuthenticationEntryPoint();
@@ -67,7 +68,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
         );
         http.exceptionHandling((exception)
-                        ->exception.authenticationEntryPoint(jwtAuthenticationEntryPoint()).accessDeniedPage("/"));
+                -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint()).accessDeniedPage("/"));
         http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

@@ -55,11 +55,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        if(failed instanceof InternalAuthenticationServiceException) {
+        if (failed instanceof InternalAuthenticationServiceException) {
             request.setAttribute("USER_NOT_FOUND", ErrorEnum.USER_NOT_FOUND);
             throw new IllegalArgumentException();
-        }
-        else if(failed instanceof BadCredentialsException) {
+        } else if (failed instanceof BadCredentialsException) {
             request.setAttribute("BAD_PASSWORD", ErrorEnum.BAD_PASSWORD);
             throw new IllegalArgumentException();
         }

@@ -33,11 +33,11 @@ public class CommentService {
     }
 
     private Post findPostById(long postId) {
-        return postRepository.findById(postId).orElseThrow(() ->  new CustomException(ErrorEnum.BAD_POSTID));
+        return postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorEnum.BAD_POSTID));
     }
 
     private Comment findCommentById(long commentId) {
-        return commentRepository.findById(commentId).orElseThrow(()-> new CustomException(ErrorEnum.BAD_COMMENTID));
+        return commentRepository.findById(commentId).orElseThrow(() -> new CustomException(ErrorEnum.BAD_COMMENTID));
     }
 
     @Transactional
@@ -80,7 +80,7 @@ public class CommentService {
         return list
                 .stream()
                 .sorted(Comparator.comparing(Comment::getCreatedAt).reversed())
-                .map(comment -> CommentResponseDto.toDto("댓글 조회 성공 🎉",200,comment))
+                .map(comment -> CommentResponseDto.toDto("댓글 조회 성공 🎉", 200, comment))
                 .toList();
     }
 
