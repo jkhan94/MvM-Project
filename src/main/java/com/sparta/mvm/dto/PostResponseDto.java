@@ -17,6 +17,7 @@ public class PostResponseDto {
     private String msg;
     private int statusCode;
     private Long id;
+    @NotBlank(message = "이름을 입력해 주세요")
     private String username;
     @NotBlank(message = "내용을 입력해 주세요")
     private String contents;
