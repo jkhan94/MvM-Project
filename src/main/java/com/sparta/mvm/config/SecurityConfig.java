@@ -1,14 +1,13 @@
 package com.sparta.mvm.config;
 
+import com.sparta.mvm.jwt.JwtAuthenticationEntryPoint;
 import com.sparta.mvm.jwt.JwtAuthenticationFilter;
 import com.sparta.mvm.jwt.JwtAuthorizationFilter;
-import com.sparta.mvm.jwt.JwtAuthenticationEntryPoint;
 import com.sparta.mvm.jwt.JwtUtil;
 import com.sparta.mvm.security.UserDetailsServiceImpl;
 import com.sparta.mvm.service.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

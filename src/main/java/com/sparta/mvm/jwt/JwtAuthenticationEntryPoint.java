@@ -2,7 +2,7 @@ package com.sparta.mvm.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.mvm.exception.ErrorEnum;
-import com.sparta.mvm.exception.TestResponse;
+import com.sparta.mvm.exception.FilterExceptionResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,38 +25,38 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             String exception = exceptionName.nextElement();
             if(exception.equals("NOT_VALID_TOKEN")){
                 ErrorEnum e = (ErrorEnum)request.getAttribute(exception);
-                TestResponse testResponse = new TestResponse(e.getStatusCode(), e.getMsg());
+                FilterExceptionResponse filterExceptionResponse = new FilterExceptionResponse(e.getStatusCode(), e.getMsg());
                 response.setStatus(e.getStatusCode());
                 response.setCharacterEncoding("UTF-8");
-                response.getWriter().write(objectMapper.writeValueAsString(testResponse));
+                response.getWriter().write(objectMapper.writeValueAsString(filterExceptionResponse));
             }
             else if(exception.equals("EXPIRED_TOKEN")){
                 ErrorEnum e = (ErrorEnum)request.getAttribute(exception);
-                TestResponse testResponse = new TestResponse(e.getStatusCode(), e.getMsg());
+                FilterExceptionResponse filterExceptionResponse = new FilterExceptionResponse(e.getStatusCode(), e.getMsg());
                 response.setStatus(e.getStatusCode());
                 response.setCharacterEncoding("UTF-8");
-                response.getWriter().write(objectMapper.writeValueAsString(testResponse));
+                response.getWriter().write(objectMapper.writeValueAsString(filterExceptionResponse));
             }
             else if(exception.equals("USER_NOT_FOUND")){
                 ErrorEnum e = (ErrorEnum)request.getAttribute(exception);
-                TestResponse testResponse = new TestResponse(e.getStatusCode(), e.getMsg());
+                FilterExceptionResponse filterExceptionResponse = new FilterExceptionResponse(e.getStatusCode(), e.getMsg());
                 response.setStatus(e.getStatusCode());
                 response.setCharacterEncoding("UTF-8");
-                response.getWriter().write(objectMapper.writeValueAsString(testResponse));
+                response.getWriter().write(objectMapper.writeValueAsString(filterExceptionResponse));
             }
             else if(exception.equals("BAD_PASSWORD")){
                 ErrorEnum e = (ErrorEnum)request.getAttribute(exception);
-                TestResponse testResponse = new TestResponse(e.getStatusCode(), e.getMsg());
+                FilterExceptionResponse filterExceptionResponse = new FilterExceptionResponse(e.getStatusCode(), e.getMsg());
                 response.setStatus(e.getStatusCode());
                 response.setCharacterEncoding("UTF-8");
-                response.getWriter().write(objectMapper.writeValueAsString(testResponse));
+                response.getWriter().write(objectMapper.writeValueAsString(filterExceptionResponse));
             }
             else if(exception.equals("test")){
                 ErrorEnum e = (ErrorEnum)request.getAttribute(exception);
-                TestResponse testResponse = new TestResponse(e.getStatusCode(), e.getMsg());
+                FilterExceptionResponse filterExceptionResponse = new FilterExceptionResponse(e.getStatusCode(), e.getMsg());
                 response.setStatus(e.getStatusCode());
                 response.setCharacterEncoding("UTF-8");
-                response.getWriter().write(objectMapper.writeValueAsString(testResponse));
+                response.getWriter().write(objectMapper.writeValueAsString(filterExceptionResponse));
             }
         }
     }
