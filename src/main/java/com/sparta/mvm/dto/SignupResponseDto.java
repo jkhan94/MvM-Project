@@ -1,7 +1,6 @@
 package com.sparta.mvm.dto;
 
 import com.sparta.mvm.entity.User;
-import com.sparta.mvm.entity.UserStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -16,7 +15,7 @@ public class SignupResponseDto {
     String lineIntro;
     LocalDateTime createdAt;
     LocalDateTime modifiedAt;
-    UserStatusEnum userStatusEnum;
+    String userStatusEnum;
 
     public SignupResponseDto(User user) {
         this.username = user.getUsername();
@@ -24,6 +23,6 @@ public class SignupResponseDto {
         this.lineIntro = user.getLineIntro();
         this.createdAt = user.getCreatedAt();
         this.modifiedAt = user.getModifiedAt();
-        this.userStatusEnum = user.getUserStatus();
+        this.userStatusEnum = user.getUserStatus().getStatus();
     }
 }

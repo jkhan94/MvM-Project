@@ -2,14 +2,12 @@ package com.sparta.mvm.entity;
 
 import com.sparta.mvm.dto.ProfileRequestDto;
 import com.sparta.mvm.dto.SignupRequestDto;
-import com.sparta.mvm.dto.SignupResponseDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

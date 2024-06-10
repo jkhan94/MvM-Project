@@ -10,4 +10,9 @@ public enum UserStatusEnum {
     USER_RESIGN("탈퇴");
 
     String status;
+
+    public String getStatus(){
+        return this.status;
+    }
+
 }

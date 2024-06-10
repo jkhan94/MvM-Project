@@ -1,6 +1,5 @@
 package com.sparta.mvm.service;
 
-import ch.qos.logback.core.spi.ErrorCodes;
 import com.sparta.mvm.dto.ResignDto;
 import com.sparta.mvm.dto.SignupRequestDto;
 import com.sparta.mvm.dto.SignupResponseDto;
@@ -23,9 +22,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    // ADMIN_TOKEN
-    private final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
     public SignupResponseDto signup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
