@@ -65,8 +65,8 @@ class PostResponseDtoTest {
         assertEquals(msg, responseDto.getMsg());
         assertEquals(statusCode, responseDto.getStatusCode());
         assertEquals(post.getId(), responseDto.getId());
-        assertEquals(username, responseDto.getUsername());
-        assertEquals(contents, responseDto.getContents());
+        assertEquals(post.getUser().getUsername(), responseDto.getUsername());
+        assertEquals(post.getContents(), responseDto.getContents());
         assertEquals(post.getCreatedAt(), responseDto.getCreatedAt());
         assertEquals(post.getModifiedAt(), responseDto.getModifiedAt());
     }
