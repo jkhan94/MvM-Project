@@ -40,22 +40,34 @@ class UserTest {
         assertEquals(userStatus, user.getUserStatus());
     }
 
-    /*
-    User 엔티티의 update 함수
-     public void update(ProfileRequestDto requestDto) {
-        this.name = requestDto.getName();
-        this.lineIntro = requestDto.getLineIntro();
-        this.password = requestDto.getChangedPassword();
-    }
-    requestDto를 인자로 수정하는데 엔티티와 서비스 중 어디서 테스트해야 하는지 궁금합니다.
-     */
     @Test
-    @DisplayName("회원정보 비밀번호 업데이트 확인")
+    @DisplayName("회원정보 비밀번호 제외 업데이트 확인")
     void updateUser(){
         // given
+        String name="이름";
+        String lineIntro="한 줄 소개";
+        String currentPassword = "";
+        String changedPassword = "";
+
+        ProfileRequestDto requestDto =  new ProfileRequestDto(name, lineIntro, currentPassword, changedPassword);
+
+        // when
+        user.update(requestDto);
+
+        // then
+        assertEquals(changedPassword, user.getPassword());
+    }
+
+    @Test
+    @DisplayName("회원정보 비밀번호 포함, 업데이트 확인")
+    void updateUseWithPassword(){
+        // given
+        String name="이름";
+        String lineIntro="한 줄 소개";
+        String currentPassword = "#han567899";
         String changedPassword = "#han56789";
 
-        ProfileRequestDto requestDto =  new ProfileRequestDto();
+        ProfileRequestDto requestDto =  new ProfileRequestDto(name, lineIntro, currentPassword, changedPassword);
         requestDto.setChangedPassword(changedPassword);
 
         // when
@@ -63,6 +75,5 @@ class UserTest {
 
         // then
         assertEquals(changedPassword, user.getPassword());
-
     }
 }

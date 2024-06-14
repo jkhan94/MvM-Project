@@ -2,11 +2,13 @@ package com.sparta.mvm.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProfileRequestDto {
     @NotBlank(message = "이름은 공백일 수 없습니다.")
     private String name;
