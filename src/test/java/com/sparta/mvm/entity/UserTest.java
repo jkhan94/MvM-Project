@@ -76,4 +76,16 @@ class UserTest {
         // then
         assertEquals(changedPassword, user.getPassword());
     }
+
+    @Test
+    @DisplayName("User 엔티티 resignStatus")
+    void resignStatus() {
+        UserStatusEnum userStatus = UserStatusEnum.USER_RESIGN;
+
+        // when
+        user.resignStatus();
+
+        // then
+        assertEquals(userStatus, user.getUserStatus());
+    }
 }
