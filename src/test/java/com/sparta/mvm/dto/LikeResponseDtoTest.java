@@ -78,8 +78,8 @@ class LikeResponseDtoTest {
         String lineIntro = "It's Han";
         UserStatusEnum userStatus = UserStatusEnum.USER_NORMAL;
         User user = new User(username, password, name, email, lineIntro, userStatus);
-        Post post =  new Post(contents);
-        Comment comment = new Comment(comments,post);
+        Post post = new Post(contents);
+        Comment comment = new Comment(comments, post);
         Like like = new Like(user, comment);
 
         // when
@@ -112,15 +112,15 @@ class LikeResponseDtoTest {
         Like like = new Like(user, post);
 
         // when
-        responseDto = LikeResponseDto.toDeleteResponse(msg,statusCode,like);
+        responseDto = LikeResponseDto.toDeleteResponse(msg, statusCode, like);
 
         // then
         assertNotNull(responseDto);
         assertEquals(msg, responseDto.getMsg());
         assertEquals(statusCode, responseDto.getStatusCode());
         assertEquals(like.getId(), responseDto.getId());
-        assertEquals(like.getCreatedAt(),responseDto.getCreatedAt());
-        assertEquals(like.getModifiedAt(),responseDto.getModifiedAt());
+        assertEquals(like.getCreatedAt(), responseDto.getCreatedAt());
+        assertEquals(like.getModifiedAt(), responseDto.getModifiedAt());
     }
 
     @Test
@@ -138,19 +138,19 @@ class LikeResponseDtoTest {
         String lineIntro = "It's Han";
         UserStatusEnum userStatus = UserStatusEnum.USER_NORMAL;
         User user = new User(username, password, name, email, lineIntro, userStatus);
-        Post post =  new Post(contents);
-        Comment comment = new Comment(comments,post);
+        Post post = new Post(contents);
+        Comment comment = new Comment(comments, post);
         Like like = new Like(user, comment);
 
         // when
-        responseDto = LikeResponseDto.toDeleteResponse(msg,statusCode,like);
+        responseDto = LikeResponseDto.toDeleteResponse(msg, statusCode, like);
 
         // then
         assertNotNull(responseDto);
         assertEquals(msg, responseDto.getMsg());
         assertEquals(statusCode, responseDto.getStatusCode());
         assertEquals(like.getId(), responseDto.getId());
-        assertEquals(like.getCreatedAt(),responseDto.getCreatedAt());
-        assertEquals(like.getModifiedAt(),responseDto.getModifiedAt());
+        assertEquals(like.getCreatedAt(), responseDto.getCreatedAt());
+        assertEquals(like.getModifiedAt(), responseDto.getModifiedAt());
     }
 }

@@ -11,13 +11,13 @@ class SignupRequestDtoTest {
 
     @Test
     @DisplayName("Setter 동작 확인")
-    void testSetter(){
+    void testSetter() {
         // givne
         String username = "HanId";
         String password = "Han#666666";
-        String name="Han";
-        String lineIntro="I am Han";
-        String email="han@example.com";
+        String name = "Han";
+        String lineIntro = "I am Han";
+        String email = "han@example.com";
         requestDto = new SignupRequestDto();
 
         // when
@@ -29,11 +29,11 @@ class SignupRequestDtoTest {
 
         // then
         assertNotNull(requestDto);
-        assertEquals(username,requestDto.getUsername());
-        assertEquals(password,requestDto.getPassword());
-        assertEquals(name,requestDto.getName());
-        assertEquals(lineIntro,requestDto.getLineIntro());
-        assertEquals(email,requestDto.getEmail());
+        assertEquals(username, requestDto.getUsername());
+        assertEquals(password, requestDto.getPassword());
+        assertEquals(name, requestDto.getName());
+        assertEquals(lineIntro, requestDto.getLineIntro());
+        assertEquals(email, requestDto.getEmail());
     }
 
 }

@@ -15,31 +15,31 @@ class SignupResponseDtoTest {
 
     @Test
     @DisplayName("생성자로 DTO 생성 확인")
-    void createDtoWithArguments(){
+    void createDtoWithArguments() {
         // given
         String username = "HanId";
-        String name="Han";
-        String lineIntro="I am Han";
+        String name = "Han";
+        String lineIntro = "I am Han";
         LocalDateTime createdAt = LocalDateTime.of(2024, 6, 14, 15, 47, 50);
         LocalDateTime modifiedAt = LocalDateTime.now();
-        String userStatusEnum="정상";
+        String userStatusEnum = "정상";
 
         // when
-        requestDto = new SignupResponseDto(username,name,lineIntro,createdAt,modifiedAt,userStatusEnum);
+        requestDto = new SignupResponseDto(username, name, lineIntro, createdAt, modifiedAt, userStatusEnum);
 
         // then
         assertNotNull(requestDto);
-        assertEquals(username,requestDto.getUsername());
-        assertEquals(name,requestDto.getName());
-        assertEquals(lineIntro,requestDto.getLineIntro());
-        assertEquals(createdAt,requestDto.getCreatedAt());
-        assertEquals(modifiedAt,requestDto.getModifiedAt());
-        assertEquals(userStatusEnum,requestDto.getUserStatusEnum());
+        assertEquals(username, requestDto.getUsername());
+        assertEquals(name, requestDto.getName());
+        assertEquals(lineIntro, requestDto.getLineIntro());
+        assertEquals(createdAt, requestDto.getCreatedAt());
+        assertEquals(modifiedAt, requestDto.getModifiedAt());
+        assertEquals(userStatusEnum, requestDto.getUserStatusEnum());
     }
 
     @Test
     @DisplayName("User로 DTO 생성 확인")
-    void createDtoWithUser(){
+    void createDtoWithUser() {
         // given
         String username = "hanid";
         String password = "#han56789";
@@ -54,12 +54,12 @@ class SignupResponseDtoTest {
 
         // then
         assertNotNull(requestDto);
-        assertEquals(user.getUsername(),requestDto.getUsername());
-        assertEquals(user.getName(),requestDto.getName());
-        assertEquals(user.getLineIntro(),requestDto.getLineIntro());
-        assertEquals(user.getCreatedAt(),requestDto.getCreatedAt());
-        assertEquals(user.getModifiedAt(),requestDto.getModifiedAt());
-        assertEquals(user.getUserStatus().getStatus(),requestDto.getUserStatusEnum());
+        assertEquals(user.getUsername(), requestDto.getUsername());
+        assertEquals(user.getName(), requestDto.getName());
+        assertEquals(user.getLineIntro(), requestDto.getLineIntro());
+        assertEquals(user.getCreatedAt(), requestDto.getCreatedAt());
+        assertEquals(user.getModifiedAt(), requestDto.getModifiedAt());
+        assertEquals(user.getUserStatus().getStatus(), requestDto.getUserStatusEnum());
     }
 
 }

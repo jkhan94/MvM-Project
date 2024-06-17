@@ -27,7 +27,7 @@ class PostResponseDtoTest {
         LocalDateTime modifiedAt = LocalDateTime.now();
 
         // when
-        responseDto = new PostResponseDto(msg,statusCode,id,username,contents,createdAt,modifiedAt);
+        responseDto = new PostResponseDto(msg, statusCode, id, username, contents, createdAt, modifiedAt);
 
         // then
         assertNotNull(responseDto);
@@ -54,11 +54,11 @@ class PostResponseDtoTest {
         String lineIntro = "It's Han";
         UserStatusEnum userStatus = UserStatusEnum.USER_NORMAL;
         User user = new User(username, password, name, email, lineIntro, userStatus);
-        Post post =  new Post(contents);
+        Post post = new Post(contents);
         post.setUser(user);
 
         // when
-        responseDto = PostResponseDto.toDto(msg,statusCode,post);
+        responseDto = PostResponseDto.toDto(msg, statusCode, post);
 
         // then
         assertNotNull(responseDto);
@@ -79,7 +79,7 @@ class PostResponseDtoTest {
         int statusCode = 200;
 
         // when
-        responseDto = PostResponseDto.toDeleteResponse(msg,statusCode);
+        responseDto = PostResponseDto.toDeleteResponse(msg, statusCode);
 
         // then
         assertNotNull(responseDto);

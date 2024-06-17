@@ -28,7 +28,7 @@ class CommentResponseDtoTest {
         LocalDateTime modifiedAt = LocalDateTime.now();
 
         // when
-        responseDto = new CommentResponseDto(msg,statusCode,id,username,comments,createdAt,modifiedAt);
+        responseDto = new CommentResponseDto(msg, statusCode, id, username, comments, createdAt, modifiedAt);
 
         // then
         assertNotNull(responseDto);
@@ -56,12 +56,12 @@ class CommentResponseDtoTest {
         String lineIntro = "It's Han";
         UserStatusEnum userStatus = UserStatusEnum.USER_NORMAL;
         User user = new User(username, password, name, email, lineIntro, userStatus);
-        Post post =  new Post(contents);
-        Comment comment = new Comment(comments,post);
+        Post post = new Post(contents);
+        Comment comment = new Comment(comments, post);
         comment.setUser(user);
 
         // when
-        responseDto = CommentResponseDto.toDto(msg,statusCode,comment);
+        responseDto = CommentResponseDto.toDto(msg, statusCode, comment);
 
         // then
         assertNotNull(responseDto);
@@ -81,7 +81,7 @@ class CommentResponseDtoTest {
         int statusCode = 200;
 
         // when
-        responseDto = CommentResponseDto.toDeleteResponse(msg,statusCode);
+        responseDto = CommentResponseDto.toDeleteResponse(msg, statusCode);
 
         // then
         assertNotNull(responseDto);

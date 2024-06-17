@@ -42,14 +42,14 @@ class UserTest {
 
     @Test
     @DisplayName("회원정보 비밀번호 제외 업데이트 확인")
-    void updateUser(){
+    void updateUser() {
         // given
-        String name="이름";
-        String lineIntro="한 줄 소개";
+        String name = "이름";
+        String lineIntro = "한 줄 소개";
         String currentPassword = "";
         String changedPassword = "";
 
-        ProfileRequestDto requestDto =  new ProfileRequestDto(name, lineIntro, currentPassword, changedPassword);
+        ProfileRequestDto requestDto = new ProfileRequestDto(name, lineIntro, currentPassword, changedPassword);
 
         // when
         user.update(requestDto);
@@ -60,14 +60,14 @@ class UserTest {
 
     @Test
     @DisplayName("회원정보 비밀번호 포함, 업데이트 확인")
-    void updateUseWithPassword(){
+    void updateUseWithPassword() {
         // given
-        String name="이름";
-        String lineIntro="한 줄 소개";
+        String name = "이름";
+        String lineIntro = "한 줄 소개";
         String currentPassword = "#han567899";
         String changedPassword = "#han56789";
 
-        ProfileRequestDto requestDto =  new ProfileRequestDto(name, lineIntro, currentPassword, changedPassword);
+        ProfileRequestDto requestDto = new ProfileRequestDto(name, lineIntro, currentPassword, changedPassword);
         requestDto.setChangedPassword(changedPassword);
 
         // when

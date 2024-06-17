@@ -4,26 +4,27 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class CommentTest {
     Comment comment;
 
     @BeforeEach
     void setUp() {
-        comment=new Comment();
+        comment = new Comment();
     }
 
     @Test
     @DisplayName("Comment 생성")
-    void createComment(){
+    void createComment() {
         // given
         String comments = "나는 댓글입니다";
         String contents = "나는 게시글입니다.";
         Post post = new Post(contents);
 
         // when
-        comment=new Comment(comments, post);
+        comment = new Comment(comments, post);
 
         // then
         assertNotNull(comment);

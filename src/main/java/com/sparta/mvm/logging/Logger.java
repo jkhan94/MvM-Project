@@ -17,12 +17,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Slf4j
 public class Logger {
     @Pointcut("execution(* com.sparta.mvm.controller.*.*(..))")
-    private void allController() { }
+    private void allController() {
+    }
 
     @Before("allController()")
-    public void beforeRequestInfo(JoinPoint joinPoint){
+    public void beforeRequestInfo(JoinPoint joinPoint) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        log.info(request.getMethod() + " : "+request.getRequestURI());
+        log.info(request.getMethod() + " : " + request.getRequestURI());
     }
 
 }

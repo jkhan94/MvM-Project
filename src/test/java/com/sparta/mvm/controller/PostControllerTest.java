@@ -106,7 +106,7 @@ class PostControllerTest {
                 .contentType(MediaType.APPLICATION_JSON);
 
         // when - then
-         mvc.perform(requestBuilder)
+        mvc.perform(requestBuilder)
                 .andDo(print());
 
     }
